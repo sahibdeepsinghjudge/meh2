@@ -1,0 +1,262 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<style>
+    .bio{
+        word-wrap: break-word;
+    }
+    .social{
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+    #copy-btn{
+          cursor: pointer;
+      }
+</style>
+<div class="container-fluid container-main" >
+    <div class="top-bar sticky-top py-2" >
+        <a href="/"><i class="fas fa-home    "></i></a>
+        <h3 class="text-iosprimary "><b>meh</b></h3>
+        <a href="/home/search"><i class="fas fa-search "></i></a>
+    </div>    
+{% if not request.user.is_authenticated %}
+<div class="container bg-white py-2 text-center">
+    <b>New to <span class="text-iosprimary">meh</span>?</b>
+</div>
+<div class="container bg-white py-2 text-center">
+    <a href="/"><button class="btnios-na ios-pr">Login</button></a>
+    <a href="/"><button  class="btnios-na ios-pr-red">Register</button></a>
+</div>
+
+{% endif %}
+
+        <div class="profile">
+            <input type="hidden" id="user_to" value="{{user_to}}"/>
+            
+        <h4><b>Profile</b> <span class="acc text-iosprimary"></span> <i class="fas fa-qrcode text-iosprimary    openPOP" style="cursor: pointer;"> </i></h4>
+        <div class="info">
+            <center>
+                {% include 'home/ios-spiner.html' %}
+            </center>
+        </div>
+        <h4 class="mt-2"><b>Social media</b></h4>
+        <div class="container bg-white border rounded py-3 mt-1"> 
+            
+        <div class="social">
+           lodaing...
+        </div>
+        
+        </div>
+        </div>
+        <div class="form-social">
+            
+        </div>
+        <div id="output"></div>
+        <p id="magic-info">share this profile by copying <b>Magic link</b>.</p>
+        <script>
+        function myFunction() {
+          var copyText = document.getElementById("myInput");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999);
+          document.execCommand("copy");
+          $('#copy-btn').html(`<i class="fas fa-check-circle  text-light  "></i>`)
+        }
+        </script>
+        <div class="container bg-dark ">
+            <div class="magiclink">
+                <center>
+                    {% include 'home/ios-spiner.html' %}
+                </center>
+            </div>
+            <div class="nput">
+                
+            </div>
+        </div>
+    
+        <script>
+            function getMOPsys() {
+                var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+                // Windows Phone must come first because its UA also contains "Android"
+                if (/windows phone/i.test(userAgent)) {
+                    return "Windows Phone";
+                }
+            
+                if (/android/i.test(userAgent)) {
+                    return "Android";
+                }
+            
+                // iOS detection from: http://stackoverflow.com/a/9039885/177710
+                if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                    return "iOS";
+                }
+            
+                return "desktop";
+            }
+            const os = getMOPsys();
+            //fetch data from api
+            var user = document.getElementById('user_to').value
+        function getData(){
+            fetch('/users/getMeh/'+user+'/').then(response => response.json())
+            .then(data => {
+                if(data['status']=='200'&&'204'){
+                var d = new Date(data['info'][0])
+                var acc_type = data['info'][1]
+                $('.acc').html(acc_type)
+                var social = data['social']
+        
+               
+               if(acc_type=='Personal'){
+                
+               
+                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                $('.info').html('')
+                $('.info').html(`
+                <div class="container bg-white border rounded py-3">
+                <p class="font-bold text-iosprimary">@${data['userdata'][0]}</p>
+                <p class="font-bold">${data['userdata'][1]}</p>
+          
+                <p class="text-iosgray"><i class="fas fa-birthday-cake  pr-2  text-warning"></i> <span class="ml-2">${d.getDate()+' '+ months[d.getMonth()]}</span></p>
+                </div>
+                <div class="container bg-white border rounded py-3 mt-2">
+                    <p class="text-black bio">${data['info'][2]}</p>
+                </div>
+                `)
+                $('.username').html('');
+                $('.username').html(data['userdata'][0]);
+                $('.orlink').html(window.location.href)
+            }
+            else{
+                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                $('.info').html('')
+                $('.info').html(`
+                <div class="container bg-light rounded-sm shadow-sm py-3">
+                    <span>Business name</span><br>
+                    <img src="#" class="img-fluid"><br>
+                    <span>${data['userdata'][0]}</span><br>
+                    <span>Email: ${data['userdata'][1]}</span><br>
+                    </div>
+                    <br>
+                <div class="container bg-light rounded py-3">
+                <p class="font-bold text-iosprimary">@${data['userdata'][0]}</p>
+                <p class="font-bold">${data['userdata'][1]}</p>
+          
+                <p class="text-iosgray"><i class="fas fa-birthday-cake  pr-2  text-warning"></i> <span class="ml-2">${d.getDate()+' '+ months[d.getMonth()]}</span></p>
+                <p class="text-iosgray">${data['info'][2]}</p>
+                </div>`)
+            }
+            function appendSocial(){
+                var facbookLink;
+                if(os=="Android" || os=="iOS"){
+                    facbookLink = 'fb://facewebmodal/f?href=https://www.facebook.com/'
+                    instaLink='instagram://user?username='
+                    twitterLink='https://www.twitter.com/'
+                }
+                else{
+                    facbookLink = 'https://www.facebook.com/'
+                    instaLink = 'https://www.instagram.com/'
+                    twitterLink='https://www.twitter.com/'
+                    }
+                $('.social').html(`
+                <div class="accs">
+                    ${data['social'][1] ? `<div class="container bg-white border-bottom  py-2 mt-1"><a href="${facbookLink}${data['social'][1]}"><i class="fab fa-facebook text-iosprimary bg-ioslight p-2 rounded"></i><span class="font-bold mx-2"> ${data['social'][1]} </span></a></div> ` : ``}
+                    ${data['social'][0] ?`<div class="container bg-white border-bottom py-2 mt-1"><a href="${instaLink}${data['social'][0]}"><i class="fab fa-instagram bg-ioslight text-iosorange  p-2 rounded"></i><span class="font-bold mx-2">${data['social'][0]}</span></a></div>`: ``}
+                    ${data['social'][2] ?`<div class="container bg-white border-bottom py-2 mt-1"><a href="${data['social'][2]}"><i class="fab fa-youtube text-iosred bg-ioslight p-2 rounded "></i><span class="font-bold mx-2">YouTube</span></a></div>`: ``}
+                    ${data['social'][5] ?`<div class="container bg-white border-bottom py-2 mt-1"><a href="https://snapchat.com/add/${data['social'][5]}"><i class="fab fa-snapchat  bg-ioslight p-2 rounded text-snapchat"></i><span class="font-bold mx-2">${data['social'][5]}</span></a></div>`: ``}
+                    ${data['social'][4] ?`<div class="container bg-white border-bottom py-2 mt-1"><a href="${twitterLink}${data['social'][4]}"><i class="fab fa-twitter bg-ioslight p-2 rounded text-primary"></i><span class="font-bold mx-2">${data['social'][4]}</span></a></div>`: ``}
+                    ${data['social'][8] ?`<div class="container bg-white border-bottom py-2 mt-1"><a href="https://t.me/${data['social'][8]}"><i class="fab fa-telegram bg-ioslight p-2 rounded text-telegram"></i><span class="font-bold mx-2">${data['social'][8]}</span></a></div>`: ``}
+                    ${data['social'][9] ?`<div class="container bg-white border-bottom py-2 mt-1"><a href="${data['social'][9]}"><i class="fab fa-discord bg-ioslight p-2 rounded text-purple"></i><span class="font-bold mx-2">${data['social'][9]}</span></a></div>`: ``}
+                    ${data['social'][6] ?`<div class="container bg-white border-bottom py-2 mt-1"><a href="twitch://${data['social'][6]}"><i class="fab fa-twitch text-twitch bg-ioslight p-2 rounded"></i><span class="font-bold mx-2">${data['social'][6]}</span></a></div>`: ``}
+                    ${data['social'][7] ?`<div class="container bg-white border-bottom py-2 mt-1"><a href="#"><i class="fas fa-envelope bg-ioslight p-2 rounded text-danger"></i><span class="font-bold mx-2" id="gmail">${
+                       data['social'][7].length >=25?data['social'][7].substring(0,25)+'...' :data['social'][7]
+                    
+                    }</span></a></div>`: ``}
+                    ${data['social'][3] ?`<div class="container bg-white border-bottom py-1 mt-1"><i class="fas fa-phone  bg-ioslight p-2 rounded text-primary  "></i><a href="tel:${data['social'][3]}"> <span class="font-bold mx-2">${data['social'][3]}</span></a></div>`: ``}
+            
+                </div>`)
+                $('#gmail').on('click',function(){
+                    $('#gmail').html(data['social'][7])
+                    setInterval(function(){
+                        data['social'][7].length >=15?data['social'][7].substring(0,15)+'...' :data['social'][7]
+                    },5000)
+                }
+                )
+            }
+            data['status']=='200'?appendSocial(): $('.social').html(`<div class="accs">No social media accounts</div>`)
+            setTimeout(function(){
+                $('.magiclink').html('')
+                $('.nput').html(`<input type="text" class="ios-control bg-dark text-light" value="${window.location.href}" id="myInput">
+                <span onclick="myFunction()" id="copy-btn"  class="px-3 py-3">
+                  <i class="fas fa-copy   text-light "></i> 
+                </span>`)
+                var parametersJson = {
+                    "size": 150, // Size of Qr Code
+                    "backgroundColor": "10-132-255", // Background Color Of Qr Code (In RGB)
+                    "qrColor": "0-0-0", // Color of Qr Code (In RGB)
+                    "padding": 2, // Padding 
+                    "data": window.location.href,
+                };
+                var img = document.querySelector(".qr-img")
+                parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}` // Stitch Together all Paramenters
+                img.src = `https://api.qrserver.com/v1/create-qr-code/?${parameters}`
+                $('.spiner').html('')
+                $('.down-qr').attr("href",`https://api.qrserver.com/v1/create-qr-code/?${parameters}`)
+            },2000)
+            
+            }
+            else{
+                console.log(data['status'],data['message'])
+                $('.profile').html(`<h2 class="font-bold">${data['status']}</h2><p>${data['message']}</p><p><a href="/">Back to home</a></p>`)
+                $('.magiclink').html('')
+                $('#magic-info').html('')
+                
+            }}
+            )
+        }
+        getData();    
+        
+        $('.js-textareacopybtn').on('click', function() {
+         var copyText = $('.js-copytextarea');
+          /* Select the text field */
+          copyText.select();
+          copyText.setSelectionRange(0, 99999); /* For mobile devices */
+          /* Copy the text inside the text field */
+          document.execCommand("copy");
+        
+          /* Alert the copied text */
+          alert("Copied the text: " + copyText.value);
+          
+        });
+        function takeshot() {
+            let div =document.getElementById('photo');
+            html2canvas(div).then(
+                function (canvas) {
+                    document
+                    .getElementById('output')
+                    .appendChild(canvas);
+                })
+        }
+        
+        </script>
+    </div>   
+    <div class="popup-bg">
+        <div class="all" id="photo">
+          <div class="popup p-2">
+              <i class="fa fa-times-circle text-iosgray dpp" aria-hidden="true" style="float: right;cursor:pointer;"></i>
+              <p></p>
+            <div class="qr-code">
+                <div class="spiner">
+                <center>
+                    {% include 'home/ios-spiner.html' %}
+                </center>
+            </div>
+            <h4><b>meh</b></h4>
+            <h4><b class="text-iosprimary username"><center>{% include 'home/ios-spiner.html' %}</center></b></h4>
+            <img class="qr-img" style="width:200px;object-fit:contain;" src/>
+                <p>OR</p>
+                <p>Use <b>Magic link to share</b></p>
+                <p class="orlink text-iosprimary font-bold"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock content %}

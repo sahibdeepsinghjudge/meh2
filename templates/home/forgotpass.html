@@ -1,0 +1,130 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<style>
+    .bio{
+        word-wrap: break-word;
+    }
+   
+    .tooltip {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 140px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 150%;
+        left: 50%;
+        margin-left: -75px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .social{
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+      #copy-btn{
+          cursor: pointer;
+      }
+      .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+      }
+      
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+</style>
+<div class="center-box">
+    
+    <div class="bg-white text-center pb-3  box-form">
+        
+        <div class="top-bar sticky-top py-2" style="margin-top:-5px;">
+            <a href="/"><i class="fas fa-home    "></i></a>
+            <h3 class="text-iosprimary "><b>meh</b></h3>
+            <a href="/home/search"><i class="fas fa-search "></i></a>
+        </div>
+        <div class="heading">
+            <h3 class="font-bold mt-2">Forgot Password</h3>
+        </div>
+            <p>Here are few things we can do.</p>
+            
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="email" class="ios-control p-2" placeholder="Enter your email" name ="email" id="email" style="display: auto;">
+                
+            </div>
+            <div class="form-group">
+                <input type="text" name="otp" id="otp" placeholder="Enter 4 digit OTP" class="ios-control p-2" style="display: none;">
+            </div>
+            <div class="form-group mt-2">
+                <button class="btnios ios-pr send-otp" id="snd" style="display: auto;">Send OTP</button>
+                <button class="btnios ios-pr verify-otp" id="ver" style="display: none;">Verify</button>
+            </div>
+            
+            
+        </form>
+        </div>
+    </div>
+<script>
+    $(document).ready(function(){
+        $(".send-otp").on('click',function(e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/users/requestOtp/",
+                data: {
+                    email:$('#email').val(),
+                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                },
+                
+                success: function(data){
+                    console.info(data)
+                    document.getElementById('otp').style.display='inline-block'
+                    document.getElementById('ver').style.display='inline-block'
+                    document.getElementById('snd').style.display='none'
+                },
+                error:function(data){
+                    console.error(data)
+                }
+            });
+        })
+    })
+    $(document).ready(function(){
+        $(".verify-otp").on('click',function(e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/users/verifyOtp/",
+                data: {
+                    email:$('#email').val(),
+                    otp:$('#otp').val(),
+                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                },
+                
+                success: function(data){
+                    data=='success'? window.location.replace('http://127.0.0.1:8000/users/reset-password/') : alert("OTP didn't match")
+                },
+                error:function(data){
+                    console.error(data)
+                }
+            });
+        })
+    })
+</script>
+{% endblock content %}

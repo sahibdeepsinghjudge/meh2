@@ -1,0 +1,11 @@
+<div class="data-search">
+    <form method="POST" class="form-search">
+        {% csrf_token %}
+        <div class="form-group my-2">
+            <input type="search" name="search" id="search" class="ios-control p-2" placeholder="search...">
+        </div>
+    </form>
+    <div class="container">
+        Results...
+    </div>
+</div>

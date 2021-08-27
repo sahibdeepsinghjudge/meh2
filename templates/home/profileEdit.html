@@ -1,0 +1,88 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<div class="container-fluid text-center container-main" >
+    <div class="top-bar sticky-top py-2" >
+        <a href="/"><i class="fas fa-home    "></i></a>
+        <h3 class="text-iosprimary "><b>meh</b></h3>
+        <a href="/home/search"><i class="fas fa-search "></i></a>
+    </div>
+  
+        
+
+
+<h3><b>Edit your linked accounts</b></h3>
+<div class="container">
+<form method="POST" action="{% url 'editprofileDone' %}">
+    {% csrf_token %}
+    <div class="form-group my-2">
+        <i class="fab fa-instagram text-iosorange" aria-hidden="true"></i>
+        <input type="text" name="insta" id="insta" class="ios-control p-2" value="{{socialAccs.instagram}}" placeholder="Instagram username">
+    </div>
+    <div class="form-group my-2">
+        <i class="fab fa-twitter  text-iosprimary  "></i>
+        <input type="text" name="twitter" id="twitter" class="ios-control p-2" value="{{socialAccs.twitter}}" placeholder="Twitter username">
+    </div>
+ 
+    <div class="form-group my-2">
+        <i class="fab fa-facebook  text-iosprimary  "></i>
+        <input type="text" name="facebook" id="fb" class="ios-control p-2" value="{{socialAccs.facebook}}" placeholder="Facebook username">
+    </div>
+
+    <div class="form-group my-2">
+        <i class="fab fa-youtube text-iosred   "></i>
+        <input type="text" name="youtube" id="yt" class="ios-control p-2" value="{{socialAccs.youtube}}" placeholder="YouTube channel link">
+    </div>
+    <div class="form-group my-2">
+        <i class="fab fa-twitch  text-twitch  "></i>
+        <input type="text" name="twitch" id="twitch" class="ios-control p-2" value="{{socialAccs.twitch}}" placeholder="Twitch username">
+    </div>
+    <div class="form-group my-2">
+       <i class="fab text-snapchat fa-snapchat    "></i>
+        <input type="text" name="snapchat" id="snap" class="ios-control p-2" value="{{socialAccs.snapchat}}" placeholder="Snapchat username">
+    </div>
+
+    <div class="form-group my-2">
+       <i class="fab text-purple fa-discord    "></i>
+        <input type="text" name="dscord" id="dscord" class="ios-control p-2" value="{{socialAccs.discord}}" placeholder="Discord username">
+    </div>
+   
+    <div class="form-group my-2">
+        <i class="fab fa-telegram text-telegram" aria-hidden="true"></i>
+        <input type="text" name="tele" id="tele" class="ios-control p-2" value="{{socialAccs.telegram}}" placeholder="Telegram username">
+    </div>
+    <div class="form-group my-2">
+        <i class="fas fa-envelope text-iosred   "></i>
+        <input type="text" name="gmail" id="gmail" class="ios-control p-2" value="{{socialAccs.gmail}}" placeholder="Gmail">
+    </div>
+    <div class="form-group my-2">
+       <i class="fas fa-phone text-primary   "></i>
+        <input type="text" name="contact" id="contact" class="ios-control p-2" value="{{socialAccs.phone_no}}" placeholder="Phone number">
+    </div>
+    <div class="form-group my-2"><b>Update your Birthday <i class="fas fa-birthday-cake  text-snapchat  "></i></b></div>
+        <div class="form-group">
+            <input type="date" id="date-ob" name="dob" value={{userdata.dob|date:"Y-m-d"}} class="ios-control p-2" >
+        </div>
+        <div class="form-group mt-2">
+            <select class="ios-control p-2 acc_type" id="acc_type" >
+                <option selected>Personal</option>
+                <!--<option>Bussiness</option>-->
+            </select>
+        </div>
+        
+    <b>Bio</b>
+    <div class="form-group">
+       <textarea name="bio" id="my-bio" cols="40" rows="7" placeholder="{{userdata.bio}}" class="ios-control-textarea"></textarea>
+    </div>
+    <div class="form-group my-3">
+        <button class="btnio-dark rounded" type="submit"><b>Submit</b></button>
+    </div>
+    
+</form>
+
+   
+
+</div>
+
+    
+</div>
+{% endblock content %}

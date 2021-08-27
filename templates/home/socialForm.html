@@ -1,0 +1,41 @@
+<div class="data3">
+    <h3><b>Time link your social media</b></h3>
+    <form method="POST" action="{% url 'postInfoacc' %}" class="form3">
+        {% csrf_token %}
+        <div class="form-group my-2">
+            <input type="text" name="insta" id="insta" class="ios-control p-2" placeholder="Instagram username">
+        </div>
+        <div class="form-group my-2">
+            <input type="text" name="twitter" id="twitter" class="ios-control p-2" placeholder="Twitter username">
+        </div>
+        <div class="form-group my-2">
+            <input type="text" name="facebook" id="fb" class="ios-control p-2" placeholder="Facebook username">
+        </div>
+        <div class="form-group my-2">
+            <input type="text" name="youtube" id="yt" class="ios-control p-2" placeholder="YouTube channel link">
+        </div>
+        <div class="form-group my-2">
+            <input type="text" name="twitch" id="twitch" class="ios-control p-2" placeholder="Twitch username">
+        </div>
+        <div class="form-group my-2">
+            <input type="text" name="snap" id="snap" class="ios-control p-2" placeholder="Snapchat username">
+        </div>
+        <div class="form-group my-2">
+            <input type="text" id="dscod" name="ds" class="ios-control p-2" placeholder="Discord server link">
+        </div>
+        <div class="form-group my-2">
+            <input type="text" name="telegram" id="telegram" class="ios-control p-2" placeholder="Telegram username">
+        </div>
+        <div class="form-group my-2">
+            <input type="text" name="gmail" id="gmail" class="ios-control p-2" placeholder="Gmail">
+        </div>
+        <div class="form-group my-2">
+            <input type="text" name="phone" id="phoneno" value="0" class="ios-control p-2" placeholder="Phone number">
+        </div>
+        
+        <div class="form-group my-3">
+            <button class="btnio-dark rounded" type="submit"><b>Submit</b></button>
+        </div>
+        
+    </form>
+</div>

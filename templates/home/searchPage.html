@@ -1,0 +1,132 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<style>
+    .ser-result{
+        display: flex;
+        align-items: center;
+        text-align: left;
+    }
+    .results,.social-res{
+        width: 350px;
+        max-height:350px;
+        overflow-y: scroll;
+    }
+    .ser{
+        text-align: left;
+        font-weight: 900;
+    }
+    .mehapp,.soci{
+        width: 350px;
+        text-align: left;
+    }
+    .ser-result>a{
+        color: #1c1c1e;
+        text-decoration: none;
+    }
+    .text-rev-snap{
+        color: #0084ff;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: #000;
+    }
+</style>
+<div class="container-fluid text-center container-main" style="height:100vh;" >
+    <div class="top-bar sticky-top py-2" >
+        <a href="/"><i class="fas fa-home    "></i></a>
+        <h3 class="text-iosprimary "><b>meh</b></h3>
+        <a href="/home/search"><i class="fas fa-search "></i></a>
+    </div>
+    <div class="container ser text-center">
+        <h3 class="font-bold"><span class="text-snapchat">Spotlight</span><span class="text-rev-snap"> search</span></h3>
+    </div>
+        
+        <form method="POST" class="form-search">
+            {% csrf_token %}
+            <div class="form-group my-2">
+            <input type="search" name="search" id="search_input" class="ios-control p-2" placeholder="     Search">
+            </div>
+        </form>
+        <center>
+            <div class="container">
+                <h5 class="mehapp"></h5>
+            </div>
+            <div class="results">
+               
+            </div>
+            <div class="container mt-2">
+                <h5 class="soci"></h5>
+            </div>
+            <div class="social-res " >
+    
+            </div>
+        </center>
+   
+        
+    
+</div>
+
+<script>
+    $(document).ready(function(){
+        $(".form-search").on('submit',function(e){
+            $(".results").html(`<center>
+                {% include 'home/ios-spiner.html' %}
+            </center>`)
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/home/search/items/",
+                data: {
+                    query:$('#search_input').val(),
+                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(data){
+                    
+                    var objData ;
+                    if(data['objs'] != ''){
+                        objData = true
+                    }
+                    else{
+                        objData=false
+                    }
+                    var socialData ;
+                    if(data['social'] != ''){
+                        socialData = true
+                    }
+                    else{
+                        socialData=false
+                    }
+                
+                    $('.results').html('')
+                    if (objData === false){
+                        $('.mehapp').html(`<b class="text-iosgray"><span class="text-rev-snap">meh</span><span class="text-iosprimary"> search</span></b>`)
+                        $('.results').html('No results found!')
+                    }
+                    else{
+                        $('.mehapp').html(`<b class="text-iosgray"><span class="text-rev-snap">meh</span><span class="text-iosprimary"> search</span></b>`)
+                        for (i in data['objs']){
+                            $('.results').append(`<li class="container bg-white border  font-bold text-black ser-result py-2 mt-1"><a href="/${data['objs'][i]}">${data['objs'][i]}</a></li>`)
+                        }
+                        
+                    }
+                    if (socialData === false){
+                        $('.soci').html(`<b class="text-iosgray"><span class="text-snapchat">Spotlight</span><span class="text-rev-snap"> search</span> <i class="fas fa-lightbulb text-snapchat   "></i></b>`)
+                        $('.social-res').html('No results found!')
+                    }
+                    else{
+                        $('.social-res').html('')
+                        $('.soci').html(`<b class="text-iosgray"><span class="text-snapchat">Spotlight</span><span class="text-rev-snap"> search</span> <i class="fas fa-lightbulb text-snapchat   "></i></b>`)
+                        for (i in data['social']){
+                            $('.social-res').append(`<li class="container bg-white border  font-bold text-black ser-result py-2 mt-1"><a href="/${data['social'][i]}">${data['social'][i]}</a></li>`)
+                        }
+                        
+                    }
+                },
+                error:function(data){
+                    console.log(data)
+                }
+            });
+        })
+    })
+</script>
+
+
+{% endblock content %}

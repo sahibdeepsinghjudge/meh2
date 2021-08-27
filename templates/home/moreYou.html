@@ -1,0 +1,37 @@
+<div class="data2">
+    <h3><b>More about you</b></h3>
+    <form method="POST" class="form2">
+        {% csrf_token %}
+        <div class="form-group my-2"><b>Select Account type</b></div>
+        <div class="form-group">
+            <select class="ios-control p-2 acc_type" >
+                <option selected>Personal</option>
+                <!--<option>Bussiness</option>-->
+            </select>
+        </div>
+        <div class="form-group my-2"><b>Date of birth</b></div>
+        <div class="form-group">
+            <input type="date" id="date-ob" name="dob" class="ios-control p-2" >
+        </div>
+        <div class="form-group my-2"><b>Bio</b></div>
+        <div class="form-group">
+           <textarea name="bio" id="my-bio" cols="50" rows="7" class="ios-control-textarea"></textarea>
+        </div>
+        <div class="form-group my-2"><b>Security question</b></div>
+        <div class="form-group">
+            <select class="ios-control p-2" name="ques" id="ques" >
+                <option selected>Favourite food</option>
+                <option>Favourite book</option>
+                <option>Favourite movie</option>
+            </select>
+        </div>
+        <div class="form-group my-3">
+            <input type="text"  id="ans" name="ans" placeholder="Your answer" class="ios-control p-2" >
+        </div>
+        
+        <div class="form-group my-3">
+            <button class="btnio-dark rounded next-btn2"><b>Next</b></button>
+        </div>
+        
+    </form>
+</div>

@@ -1,0 +1,125 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<style>
+    .bio{
+        word-wrap: break-word;
+    }
+   
+    .tooltip {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 140px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 150%;
+        left: 50%;
+        margin-left: -75px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .social{
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+      #copy-btn{
+          cursor: pointer;
+      }
+      .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+      }
+      
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+</style>
+<div class="center-box">
+    
+    <div class="bg-white text-center pb-3  box-form">
+        
+        <div class="top-bar sticky-top py-2" style="margin-top:-5px;">
+            <a href="/"><i class="fas fa-home    "></i></a>
+            <h3 class="text-iosprimary "><b>meh</b></h3>
+            <a href="/home/search"><i class="fas fa-search "></i></a>
+        </div>
+        <div class="heading">
+            <h3 class="font-bold mt-2">Reset Password</h3>
+        </div>
+            <p>Enter your new password</p>
+            
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="email" class="ios-control p-2" placeholder="Enter your email" name ="email" id="email">
+                
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" id="password" placeholder="Enter new password" class="ios-control p-2" ">
+            </div>
+            <div class="form-group">
+                <select class="ios-control p-2" name="ques" id="ques" ><option selected>Select your question</option>
+                    <option>Favourite food</option>
+                    <option>Favourite book</option>
+                    <option>Favourite movie</option>
+                </select>
+            </div>
+            <div class="form-group my-3">
+                <input type="text"  id="ans" name="ans" placeholder="Your answer" class="ios-control p-2" >
+            </div>
+            <div class="form-group mt-2">
+                <button class="btnios ios-pr resetotp">Reset</button>
+                
+            </div>
+            
+            
+        </form>
+        </div>
+    </div>
+<script>
+    $(document).ready(function(){
+        $(".resetotp").on('click',function(e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/users/reset-password/done/",
+                data: {
+                    email:$('#email').val(),
+                    password:$('#password').val(),
+                    ques:$('#ques').find(":selected").text(),
+                    ans:$('#ans').val(),
+                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                },
+                
+                success: function(data){
+                    console.log(data)
+                    if(data == 'done'){
+                        
+                        alert("Password reset done login now with new password")
+                        window.location.replace('http://127.0.0.1:8000/')
+                    }else{alert("Data invalid")}
+                },
+                error:function(data){
+                    console.info(data)
+                }
+            });
+        })
+    })
+    
+</script>
+{% endblock content %}
