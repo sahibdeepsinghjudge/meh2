@@ -1,1 +1,1 @@
-web: gunicorn mehspp.wsgi
+web: gunicorn mehapp.wsgi
