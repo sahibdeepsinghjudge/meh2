@@ -1,0 +1,109 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<style>
+    .ser-result{
+        display: flex;
+        align-items: center;
+        text-align: left;
+    }
+    .results,.social-res{
+        width: 350px;
+        max-height:350px;
+        overflow-y: scroll;
+    }
+    .recents{
+        background-color: #f2f2f7;
+        height: 250px;
+        overflow-y: scroll;
+    }
+    .talks,.nearme{
+        background-color: #f2f2f7;
+        height: 350px;
+        overflow-y: scroll;
+    }
+    .ser{
+        text-align: left;
+        font-weight: 900;
+    }
+    .mehapp,.soci{
+        width: 350px;
+        text-align: left;
+    }
+    .ser-result>a{
+        color: #1c1c1e;
+        text-decoration: none;
+    }
+    .text-rev-snap{
+        color: #0084ff;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: #000;
+    }
+    .top-bar{
+        background-color: rgba(255, 255, 255, 0.466);
+        backdrop-filter: blur(20px) saturate(180%);
+
+    }
+    .logo-meh{
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: #1c1c1e;
+        color: rgba(0, 0, 0, 0);
+     }
+     .links-fa > a{
+         color: black;
+         display: flexbox;
+         align-items: center;
+         flex-direction: row;
+     }
+     .navigator-bar{
+         position: fixed;
+         bottom: 1px;
+         background-color: rgba(255, 255, 255, 0.466);
+         backdrop-filter: blur(20px) saturate(180%);
+         text-align: center;
+         width: 100vw;
+     }
+</style>
+<div class="container-fluid  container-main" style="min-height: 105vh;" >
+    {% include 'home/navbar.html' %}
+    <br><br>
+    <div class="container px-3">
+        <!--<div class="container border rounded p-2 my-2 recents">
+            <h4 ><b>Recent Activity</b></h4>
+            </div>
+            <div class="container border rounded my-2 p-2 talks">
+                <h4 ><b>mehTalks</b></h4>
+                </div>
+                <div class="container border rounded p-2 nearme">
+                    <h4 ><b>Near Me</b></h4>
+                    </div>-->
+                    {% include 'home/profile.html' %}
+    </div>
+    <div class="popup-bg">
+        <div class="all" id="photo">
+          <div class="popup p-2">
+              <i class="fa fa-times-circle text-iosgray dpp" aria-hidden="true" style="float: right;cursor:pointer;"></i>
+              <p></p>
+            <div class="qr-code">
+                <div class="spiner">
+                <center>
+                    {% include 'home/ios-spiner.html' %}
+                </center>
+            </div>
+            <h4><b>meh</b></h4>
+            <h4><b class="text-iosprimary username" style="text-transform: uppercase;"><center>{% include 'home/ios-spiner.html' %}</center></b></h4>
+                <img class="qr-img" style="width:200px;object-fit:contain;" src/>
+                <p>OR</p>
+                <p>Use <b>Magic link to share</b></p>
+                <p class="orlink text-iosprimary font-bold"></p>
+                   
+            </div>
+          </div>
+        </div>
+      </div>
+    
+</div>
+
+
+
+
+{% endblock content %}

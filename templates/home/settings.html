@@ -1,0 +1,371 @@
+
+{% extends 'home/base.html' %}
+
+{% block content %}
+<style>
+    
+</style>
+
+    
+
+    <div class="center-box">
+       <input type="hidden" value="{{request.user.username}}" id='userLog'>
+        <div class="container-fluid  border" style="background-color: #fafafa;min-height:100vh" >
+            {% include 'home/navbar.html' %}
+
+            <br><br>
+            <div class="container-fluid  py-2">
+                <div class="server-message"></div>
+                <h3><b>Settings</b></h3>
+                
+                    <div class="sub-heading my-3">
+                        <h5 class="text-iosgray">Location Services</h5>
+                    </div>
+                    <li class="setting"> <span class="location-update toggle-li  flex-box" style="font-weight:lighter"><div>location</div><i class="fas fa-toggle-off text-iosgray location" style="font-size: 26px;"></i></span>
+                    </li>
+                    <div class="sub-heading my-3">
+                        <h5 class="text-iosgray">Privacy</h5>
+                    </div>
+                    </li>
+                    <li class="setting"> <span class="toggle-li flex-box" style="font-weight:lighter"><div>Allow contact number search</div><i class="fas fa-toggle-on text-iossuccess " style="font-size: 26px;"></i></span>
+                    </li>
+                    <li class="setting"> <span class="toggle-li flex-box " style="font-weight:lighter"><div>Switch to Business Account</div><span class="text-iosprimary bg-ioslight px-2 rounded">Soon</span></span>
+                    </li>
+                    <li class="setting"> <span class="mehCard-update toggle-li flex-box" style="font-weight:lighter"><div>meh card</div><i class="fas fa-toggle-off text-iosgray mehCard" style="font-size: 26px;"></i></span>
+                    </li>
+
+                    <div class="sub-heading my-3">
+                        <h5 class="text-iosgray">Services</h5>
+                    </div>
+                    <li class="setting"> <span class="event-update toggle-li flex-box" style="font-weight:lighter"><div>event notifications</div><i class="fas fa-toggle-off text-iosgray event " style="font-size: 26px;"></i></span>
+                    </li>
+                    <li class="setting"> <span class="insights-update toggle-li flex-box" style="font-weight:lighter"><div>Insights</div><i class="fas fa-toggle-off text-iosgray insights" style="font-size: 26px;"></i></span>
+                    </li>
+                    <li class="setting"> <span class="toggle-li flex-box" style="font-weight:lighter"><div>about advertisements</div></span>
+                    </li>
+                    <li class="setting"> <span class="toggle-li flex-box" style="font-weight:lighter"><div>Metal meh cards</div><span class="text-iosprimary bg-ioslight px-2 rounded">Soon</span></span>
+                    </li>
+
+                    <div class="sub-heading my-3">
+                        <h5 class="text-iosgray">Connected Accounts <span><a href="/users/register/socialDone/edit/" class="text-iosprimary " style="font-size: 14px;">edit</a></span></h5>
+                        
+                    </div>
+                    <div class="social">
+
+                    </div>
+                    <div class="sub-heading my-3">
+                        <h5 class="text-iosgray">More</h5>
+                    </div>
+                    <li class="setting dropdown" style="font-weight:lighter">Account verification</li>
+                    <div class="drop-content py-2">
+                        Your profile will automatically be verified when your total unique visits crosses 100 visits.
+                    </div>
+                   <a href="{% url 'forgot-password' %}"> <li class="setting " style="font-weight:lighter"> Password Reset </li></a>
+                    <li class="setting" style="font-weight:lighter">Delete My Account</li>
+                    <li class="setting dropdown2" style="font-weight:lighter">Security Question and Answer</li>
+                    <div class="drop-content2">
+                        Security Question:<b>{{data.security_q}}</b>
+                        <br>
+                        Security Answer:<b>{{data.security_ans}}</b>
+                    </div>
+                    <a href="/users/logout/"><li class="setting" style="font-weight:lighter;background:#ffbca879;color:#FF4141;">Logout</li></a>
+                    
+                <p class="text-center">Joined <b>meh</b> on {{request.user.date_joined|date:'d-M-Y'}}</p>
+                <p class="text-center">Made in Amritsar <i class="fas fa-heart  text-iosred pl-2 "></i></p>
+                <input type="hidden" value="on" class="location-status">
+                <input type="hidden" value="on" class="mehCard-status">
+                <input type="hidden" value="on" class="eventNotifications-status">
+                <input type="hidden" value="on" class="insights-status">
+
+                <center>
+                <div id="meh-here"></div>
+                </center>
+                <input type="hidden" value="{{request.user.username}}" id="user">
+</div>
+        </div>
+</div>
+<script>
+    $('.dropdown').on('click',function(){
+        $('.drop-content').toggleClass('active')
+    })
+    $('.dropdown2').on('click',function(){
+        $('.drop-content2').toggleClass('active')
+    })
+    $('.dropdown3').on('click',function(){
+        $('.drop-content3').toggleClass('active')
+    })
+    $('.dropdown4').on('click',function(){
+        $('.drop-content4').toggleClass('active')
+    })
+    const webConfig = {
+        'username':document.getElementById('userLog').value,
+    }
+    function createComponent(){
+        var mehURL = "https://mehconnect.pythonanywhere.com/"+webConfig.username;
+        var mehBlock = document.getElementById('meh-here');
+        mehBlock.innerHTML=`<div class ="meh-outer"><a href =${mehURL}>${webConfig.username}</a> <div class="magic-qr"><img src class="qr-img"/></div></div>`;
+    
+    var parametersJson = {
+        "size": 150, // Size of Qr Code
+        "backgroundColor": "255-255-255", // Background Color Of Qr Code (In RGB)
+        "qrColor": "0-0-0", // Color of Qr Code (In RGB)
+        "padding": 2, // Padding 
+        "data": "https://meh.connect/"+webConfig.username,
+    };
+    var img = document.querySelector(".qr-img")
+    parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}` // Stitch Together all Paramenters
+    img.src = `https://api.qrserver.com/v1/create-qr-code/?${parameters}`
+    $('.spiner').html('')
+    $('.down-qr').attr("href",`https://api.qrserver.com/v1/create-qr-code/?${parameters}`)
+}
+
+createComponent()
+</script>
+<script>
+    function getMOPsys() {
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    
+        // Windows Phone must come first because its UA also contains "Android"
+        if (/windows phone/i.test(userAgent)) {
+            return "Windows Phone";
+        }
+    
+        if (/android/i.test(userAgent)) {
+            return "Android";
+        }
+    
+        // iOS detection from: http://stackoverflow.com/a/9039885/177710
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            return "iOS";
+        }
+    
+        return "desktop";
+    }
+
+    const os = getMOPsys();
+    var user = document.getElementById('user').value
+    $.get("/api/location/"+user+"/",function(data){
+        $('.location-status').val(data['location_sharing']);
+    })
+    fetch('/api/'+user+'/').then(response => response.json())
+    .then(data => {
+        $('.visits').html(`<div><i class="fas fa-eye  text-iossuccess  "></i> <b>${data['Extra-Data']["raw-count"]}</b></div><div> <i class="fas fa-eye  text-iosprimary  "></i> <b>${data['Extra-Data']["unique"]}</b> </div> `)
+        $('.mehCard-status').val(data['Settings'][0]['mehCard']);
+        $('.eventNotifications-status').val(data['Settings'][0]['eventNotifications']);
+
+        $('.insights-status').val(data['Settings'][0]['insights']);
+
+        
+        var count = 0;
+        var i;
+        function appendSocial(){
+            var facbookLink;
+            if(os=="Android" || os=="iOS"){
+                facbookLink = 'fb://facewebmodal/f?href=https://www.facebook.com/'
+                instaLink='instagram://user?username='
+                twitterLink='https://www.twitter.com/'
+            }
+            else{
+                facbookLink = 'https://www.facebook.com/'
+                instaLink = 'https://www.instagram.com/'
+                twitterLink='https://www.twitter.com/'
+                }
+                $('.social').html(`
+                <div class="accs" >
+                    <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-facebook text-iosprimary bg-ioslight p-2 rounded"> <span>Facebook</span> </i>${data['Social']['facebook'] ? `<span class="text-iossuccess"> <i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-instagram text-iosorange bg-white   p-2 rounded"><span class="mx-1">Instagram</span></i>${data['Social']['instagram'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                   <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-youtube text-iosred bg-ioslight p-2 rounded "><span class="mx-1">YouTube</span></i>${data['Social']['youtube'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                  <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-snapchat  bg-ioslight p-2 rounded text-snapchat"><span class="mx-1">Snapchat</span></i>${data['Social']['snapchat'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-twitter bg-ioslight p-2 rounded text-primary"><span class="mx-1">Twitter</span></i>${data['Social']['twitter'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-linkedin  bg-ioslight p-2 rounded text-linkedin"><span class="mx-1">LinkedIn</span></i>${data['Social']['linkedin'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting d-flex justify-content-between p-2 style="font-weight:light";" ><i class="fa fa-globe bg-ioslight p-2 rounded text-primary"><span class="mx-1">Website</span></i>${data['Social']['website'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                      
+                    <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-telegram bg-ioslight p-2 rounded text-telegram"><span class="mx-1">Telegram</span></i>${data['Social']['telegram'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-discord bg-ioslight p-2 rounded text-purple"><span class="mx-1">Discord</span></i>${data['Social']['discord'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-twitch text-twitch bg-ioslight p-2 rounded"><span class="mx-1">Twitch</span></i>${data['Social']['twitch'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting d-flex justify-content-between p-2 style="font-weight:light";" ><i class="fa fa-envelope bg-ioslight p-2 rounded text-danger"><span class="mx-1">Gmail</span></i>${data['Social']['gmail'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting  d-flex justify-content-between p-2 style="font-weight:light";" ><i class="fa fa-phone  bg-ioslight p-2 rounded text-primary  "><span class="mx-1">Phone number</span></i>${data['Social']['phone_no'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+
+        </div>`)
+        $('#gmail').on('click',function(){
+            $('#gmail').html(data['Social']['gmail'])
+            setInterval(function(){
+                data['social'][7].length >=15?data['Social']['gmail'].substring(0,15)+'...' :data['Social']['gmail']
+            },5000)
+        }
+        )
+        }
+        appendSocial()
+        for (i in data["Social"]){
+            if(data["Social"][i]!=""){
+                count++;
+            }
+        }
+           
+        $(".socialmedia-toggle ").append(`<b>${count-2}</b>`)
+        changeToggle();
+        changeToggle2()
+        changeToggle3()
+        changeToggle4()
+
+    })
+    $(document).ready(function(){
+        changeToggle()
+        changeToggle2()
+changeToggle3()
+changeToggle4()
+    })
+    function changeToggle(){
+        if($('.location-status').val()=='on') {$('.location').removeClass('fa-toggle-off');$('.location').addClass('fa-toggle-on');$('.location').addClass('text-iossuccess')} 
+        else{$('.location').removeClass('fa-toggle-on');$('.location').addClass('fa-toggle-off');$('.location').removeClass('text-iossuccess')}
+    }
+    function changeToggle2(){
+        if($('.mehCard-status').val()=="on") {$('.mehCard').removeClass('fa-toggle-off');$('.mehCard').addClass('fa-toggle-on');$('.mehCard').addClass('text-iossuccess')} 
+        else{$('.mehCard').removeClass('fa-toggle-on');$('.mehCard').addClass('fa-toggle-off');$('.mehCard').removeClass('text-iossuccess')}
+    }
+    function changeToggle3(){
+        if($('.eventNotifications-status').val()=="on") {$('.event').removeClass('fa-toggle-off');$('.event').addClass('fa-toggle-on');$('.event').addClass('text-iossuccess')} 
+        else{$('.event').removeClass('fa-toggle-on');$('.event').addClass('fa-toggle-off');$('.event').removeClass('text-iossuccess')}
+    }
+    function changeToggle4(){
+        if($('.insights-status').val()=="on") {$('.insights').removeClass('fa-toggle-off');$('.insights').addClass('fa-toggle-on');$('.insights').addClass('text-iossuccess')} 
+        else{$('.insights').removeClass('fa-toggle-on');$('.insights').addClass('fa-toggle-off');$('.insights').removeClass('text-iossuccess')}
+    }
+    $(document).ready(function(){
+        $('.location').on('click',function(e){
+            
+                if($('.location-status').val()=='on') {
+                    $('.location-status').val('off')
+                    changeToggle()
+                }else{
+                    $('.location-status').val('on')
+                    changeToggle()
+                }
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/users/location/settings/",
+                data: {
+                    sharing:$('.location-status').val(),
+                },
+                success: function(data){
+                    if(data==='on'){
+                       return true; 
+                }
+                else{
+                    return true;
+                }
+                },
+                error:function(data){
+                    console.error(data)
+                }
+            });
+        })
+    })
+
+
+        $(document).ready(function(){
+            $('.mehCard').on('click',function(e){
+                    if($('.mehCard-status').val()=="on") {
+                        $('.mehCard-status').val("off")
+                        changeToggle2()
+                    }else{
+                        $('.mehCard-status').val("on")
+                        changeToggle2()
+                    }
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "/users/mehCard/toggle/",
+                    data: {
+                        value:$('.mehCard-status').val(),
+                    },
+                    success: function(data){
+                        if(data==="True"){
+                            console.log(data)
+                           return true; 
+                    }
+                    else{
+                        return true;
+                    }
+                    },
+                    error:function(data){
+                        console.error(data)
+                    }
+                });
+            })
+    
+})
+
+$(document).ready(function(){
+    $('.event').on('click',function(e){
+            if($('.eventNotifications-status').val()=="on") {
+                $('.eventNotifications-status').val("off")
+                changeToggle3()
+            }else{
+                $('.eventNotifications-status').val("on")
+                changeToggle3()
+            }
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/users/event/toggle/",
+            data: {
+                value:$('.eventNotifications-status').val(),
+            },
+            success: function(data){
+                if(data==="on"){
+                    console.log(data)
+                   return true; 
+            }
+            else{
+                return true;
+            }
+            },
+            error:function(data){
+                console.error(data)
+            }
+        });
+    })
+
+})
+
+
+$(document).ready(function(){
+    $('.insights').on('click',function(e){
+            if($('.insights-status').val()=="on") {
+                $('.insights-status').val("off")
+                changeToggle4()
+            }else{
+                $('.insights-status').val("on")
+                changeToggle4()
+            }
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/users/insights/toggle/",
+            data: {
+                value:$('.insights-status').val(),
+            },
+            success: function(data){
+                if(data==="on"){
+                    console.log(data)
+                   return true; 
+            }
+            else{
+                return true;
+            }
+            },
+            error:function(data){
+                console.error(data)
+            }
+        });
+    })
+
+})
+
+
+
+</script>
+
+{% endblock content %}

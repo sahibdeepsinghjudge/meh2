@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 urlpatterns = [
-    path('register/',views.registerUser,name='register'),
+       path('register/',views.registerUser,name='register'),
     path('register/validateForm1',views.validateForm1,name='val1'),
     path('register/done',views.postInfo,name='postInfo'),
     path('register/socialDone/',views.postInfoAccs,name='postInfoacc'),
@@ -9,10 +9,22 @@ urlpatterns = [
     path('logout/',views.logoutApi,name='logout'),
     path('getMeh/<str:username>/',views.returnUserData,name='userdata'),
     path('register/socialDone/edit/',views.editProfile,name='editprofile'),
+    path('register/personal/edit/',views.editPersonal,name='editpersonal'),
     path('register/socialDone/edit/done/',views.postInfoAccsUp,name='editprofileDone'),
+    path('register/personal/edit/done/',views.updatePersonal,name='editPersonalDone'),
     path("forgot-password/",views.forgotpassword,name='forgot-password'),
     path("requestOtp/",views.requestOtp,name="request-otp"),
-    path("verifyOtp/",views.verifyOtp,name="verify-otp"),
     path("reset-password/",views.resetpasswordPage,name="reset-pswd"),
     path("reset-password/done/",views.resetPswdDone, name="reset-pswd-done"),
+    path("admin/user-count/",views.usersCount, name="usercount"),
+    path('profile/complete-setup/',views.compPage,name = 'compPage'),
+    path('profile/complete-setup/done',views.compProfile,name = 'compProfile'),
+    path('location/putloacation/',views.putLocationData,name='put-location-data'),
+    path('location/processloacation/',views.processLoacation,name='process-location-data'),
+    path('location/settings/',views.locationSharing,name='location-sharing'),
+    path('mehCard/toggle/',views.updateMehCard,name='mehCard-sharing'),
+    path('event/toggle/',views.updateEventNotification,name='event-sharing'),
+    path('insights/toggle/',views.updateInsights,name='insights-sharing'),
+    path('put/email/',views.updateRegister,name='email-register'),
+    path('location/settings/sharing/status/',views.getLocationSettings,name='location-sharing-status'),
 ]

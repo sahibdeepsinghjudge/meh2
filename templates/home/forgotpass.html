@@ -48,39 +48,77 @@
         visibility: visible;
         opacity: 1;
       }
+      #hidden-part{
+        display: none;
+      }
+      #shown-part{
+          display: inline-block;
+      }
 </style>
-<div class="center-box">
-    
-    <div class="bg-white text-center pb-3  box-form">
+<div class="center-box ">
+       
+    <div class="container-fluid container-main border" style="background-color: #fff;height:100vh" >
+       {% include 'home/navbar.html' %}
         
-        <div class="top-bar sticky-top py-2" style="margin-top:-5px;">
-            <a href="/"><i class="fas fa-home    "></i></a>
-            <h3 class="text-iosprimary "><b>meh</b></h3>
-            <a href="/home/search"><i class="fas fa-search "></i></a>
-        </div>
-        <div class="heading">
-            <h3 class="font-bold mt-2">Forgot Password</h3>
-        </div>
-            <p>Here are few things we can do.</p>
-            
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <input type="email" class="ios-control p-2" placeholder="Enter your email" name ="email" id="email" style="display: auto;">
-                
+        <div class="container-fluid bg-white">
+            <div class="data1">
+                <div class="server-message"></div>
+                <div class="heading">
+                    <h3 class="font-bold mt-2">Forgot Password</h3>
+                </div>
+                    <p>Here are few things we can do.</p>
+               
+                <form method="POST">
+                    {% csrf_token %}
+                    <div id="shown-part">
+                        <div class="form-group">
+                            <label for="email">Enter you registered email</label>
+                        </div>
+                    <div class="form-group">
+                        <input type="email" class="ios-control p-2" placeholder="Enter your email" name ="email" id="email" style="display: auto;">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="email">Security question</label>
+                    </div>
+                    <div class="form-group">
+                        <select class="ios-control p-2" name="ques" id="ques" ><option selected>Select your question</option>
+                            <option>Favourite food</option>
+                            <option>Favourite book</option>
+                            <option>Favourite movie</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="email">Security answer</label>
+                    </div>
+                    <div class="form-group my-3">
+                        <input type="text"  id="ans" name="ans" placeholder="Your answer" class="ios-control p-2" >
+                    </div>
+                    <div class="form-group mt-2">
+                        <button class="btnios ios-pr send-otp" id="snd">Check</button>
+                    </div>
+                </div>
+                    <div id="hidden-part">
+                        <div class="form-group">
+                            <input type="password" name="password" id="password" placeholder="Enter new password" class="ios-control p-2" ">
+                        </div>
+                        <div class="form-group mt-2">
+                            <button class="btnios ios-pr resetotp">Reset</button>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                </form>
             </div>
-            <div class="form-group">
-                <input type="text" name="otp" id="otp" placeholder="Enter 4 digit OTP" class="ios-control p-2" style="display: none;">
-            </div>
-            <div class="form-group mt-2">
-                <button class="btnios ios-pr send-otp" id="snd" style="display: auto;">Send OTP</button>
-                <button class="btnios ios-pr verify-otp" id="ver" style="display: none;">Verify</button>
-            </div>
             
-            
-        </form>
-        </div>
+        
+       
+</div>
     </div>
+</div>
+
 <script>
     $(document).ready(function(){
         $(".send-otp").on('click',function(e){
@@ -90,14 +128,32 @@
                 url: "/users/requestOtp/",
                 data: {
                     email:$('#email').val(),
+                    ques:$('#ques').find(":selected").text(),
+                    ans:$('#ans').val(),
                     csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
                 },
                 
                 success: function(data){
                     console.info(data)
-                    document.getElementById('otp').style.display='inline-block'
-                    document.getElementById('ver').style.display='inline-block'
-                    document.getElementById('snd').style.display='none'
+                    if(data['check']=='success'){
+                        document.getElementById('hidden-part').style.display='inline-block'
+                        document.getElementById('shown-part').style.display='none'
+                        $('.server-message').addClass('success')
+                        $('.server-message').html("Data verified successfully")
+                        $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
+                        setTimeout(function(){
+                            $('.server-message').animate({top:'-5px',opacity:'0'},'fast')
+                        },1500)
+                    }
+                    else{
+                        $('.server-message').addClass('critical')
+                        $('.server-message').html("Information incorrect")
+                        $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
+                        setTimeout(function(){
+                            $('.server-message').animate({top:'-5px',opacity:'0'},'fast')
+                        },1500)
+                    }
+                    
                 },
                 error:function(data){
                     console.error(data)
@@ -106,22 +162,27 @@
         })
     })
     $(document).ready(function(){
-        $(".verify-otp").on('click',function(e){
+        $(".resetotp").on('click',function(e){
             e.preventDefault();
             $.ajax({
                 type: "POST",
-                url: "/users/verifyOtp/",
+                url: "/users/reset-password/done/",
                 data: {
                     email:$('#email').val(),
-                    otp:$('#otp').val(),
+                    password:$('#password').val(), 
                     csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
                 },
                 
                 success: function(data){
-                    data=='success'? window.location.replace('http://127.0.0.1:8000/users/reset-password/') : alert("OTP didn't match")
+                    console.log(data)
+                    if(data == 'done'){
+                        
+                        alert("Password reset done login now with new password")
+                        window.location.replace('/login/page-next/')
+                    }else{alert("Data invalid")}
                 },
                 error:function(data){
-                    console.error(data)
+                    console.info(data)
                 }
             });
         })

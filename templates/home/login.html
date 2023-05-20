@@ -1,20 +1,114 @@
-<div class="data4">
-    <br><br>
-    <h3><b>Welcome back</b></h3>
-    <img src="/media/mehLoding.png" alt="" srcset="" style="height: 30vh; object-fit:contain;">
-    <form method="POST" class="form4">
-        
-        <div class="form-group my-2">
-            <input type="text" name="log-user" id="log-username" class="ios-control p-2" placeholder="@username">
+
+{% extends 'home/base.html' %}
+
+{% block content %}
+<style>
+    .lemongreen{
+        background-color: #34C759;
+        color: #fafafa;
+        border: #34C759;
+    }
+    .btn-lg{
+        min-width: 300px;
+        height: 50px;
+    }
+    .data1{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+
+    {% if not request.user.is_authenticated %}
+
+    <div class="center-box ">
+       
+        <div class="container-fluid container-main border" style="background-color: #ffffff;height:110vh" >
+            {% include 'home/navbar.html' %}
+            <div class="container-fluid bg-light">
+
+            
+            <div class="data1">
+                <div class="server-message"></div>
+                <h3><b>Login</b></h3>
+                <p></p>
+                
+                <form method="POST" class="form4">
+                    {% csrf_token %}
+        <div class="form-group">
+            <label class="font-bold">Username</label>
         </div>
-        <div class="form-group my-2">
-            <input type="password" name="log-pswd" id="log-pswd" class="ios-control p-2" placeholder="password">
-        </div>
-        
-        <a href="/users/forgot-password/">Forgot Password?</a>
-        <div class="form-group my-3">
-            <button class="btnio-dark rounded login-btn" type="submit"><b>login</b></button>
-        </div>
-        
-    </form>
+                    <div class="form-group mt-2">
+                        <input type="text" name="log-user" id="log-username" class="ios-control p-2" placeholder="@username">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-bold">Password</label>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input type="password" name="log-pswd" id="log-pswd" class="ios-control p-2" placeholder="password">
+                    </div>
+                    
+                    <a href="/users/forgot-password/" class="text-iosprimary">Forgot Password?</a>
+                    <div class="form-group my-3">
+                        <button class="btnios ios-pr    log" type="submit"><b>Login</b></button>
+                    </div>
+                    
+                </form>
     </div>
+</div>
+        </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".log").on('click',function(e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/users/login/",
+                data: {
+                    username:$('#log-username').val(),
+                    password:$('#log-pswd').val(),
+                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(data){
+                    if(data==='success'){
+                        $('.forms').animate({opacity:'0'},'fast')
+                        $('.server-message').addClass('success')
+                        $('.server-message').html("Login successfull")
+                        $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
+                        setTimeout(function(){
+                            $('.server-message').animate({top:'-5px',opacity:'0'},'fast')
+                        },1500)
+                        location.replace('/')
+                }
+                else{
+                $('.data3').animate({top:'-10vh'},'fast')
+                $('.data3').animate({top:'5vh'},'fast')
+                $('.server-message').removeClass('success')
+                $('.server-message').addClass('critical')
+                $('.server-message').html("Username or password invalid")
+                $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
+                setTimeout(function(){
+                    $('.server-message').animate({top:'-85px',opacity:'0'},'fast')
+                },1500)
+                }
+                },
+                error:function(data){
+                $('.data3').animate({top:'-10vh'},'fast')
+                $('.data3').animate({top:'5vh'},'fast')
+                $('.server-message').removeClass('success')
+                $('.server-message').addClass('critical')
+                $('.server-message').html("Server Error"+data.status)
+                $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
+                setTimeout(function(){
+                    $('.server-message').animate({top:'-85px',opacity:'0'},'fast')
+                },1500)
+                }
+            });
+        })
+    })
+</script>
+{% endif %}
+
+{% endblock content %}

@@ -23,6 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('usersData.urls')),
     path('', include('home.urls')),
+    path('api/', include('api.urls')),
+    path('login/page-next/',views.loginPage,name='loginPage'),
+    path('register/page-next/',views.registerPage,name='registerPage'),
     path('<str:username>/',views.exProfilePage,name='profile-page-x'),
 ]
 if settings.DEBUG:

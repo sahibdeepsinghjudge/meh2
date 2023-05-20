@@ -1,51 +1,31 @@
 {% extends 'home/base.html' %}
 
 {% block content %}
-<style>
-.loader{
-    position: absolute;
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px) saturate(180%);
-    height: 100vh;
-    width: 450px;
-    visibility: visible;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 101;
-}
-@media (max-width:500px){
-    .loader{
-        position: absolute;
-        background-color: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(20px) saturate(180%);
-        height: 100vh;
-        width: 100%;
-        visibility: visible;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 101;
-    }
-}
 
-</style>
 {% if not request.user.is_authenticated %}
-    <div class="center-box">
-        <div class="loader">
-            <div>
-            <h3 class="text-iosprimary "><b>meh</b></h3>
-           </div>
-        </div>
-        <div class="bg-white text-center py-3 box-form">
-            <h3 class="text-iosprimary "><b>meh</b></h3>
-            <div class="server-message"></div>
-            <div class="forms">
-            <div class="data1">
-            <h3><b>Register now</b></h3>
-            <p><b>or <span class="login text-iosprimary" style="cursor: pointer;">Login</span></b></p>
-            <img src="/media/mehLoding.png" alt="" srcset="" style="height: 30vh; object-fit:contain;">
-        <div class="box-inputs">
+{% include 'home/mainpage.html' %}
+
+<script>
+    $(document).ready(function(){
+        $('.loader').fadeOut(2000)
+    
+
+    })
+    
+</script>
+{% else %}
+<input type="hidden" value="{{request.user.username}}" id="user">
+{% include 'home/navbar.html' %}
+
+<div class="container-fluid container-main every "  >
+   
+   <br><br>
+    {% include 'home/locationBase.html' %}
+</div>
+
+{% endif %}
+{% endblock content %}
+<!--<div class="box-inputs">
         <form class="form1" method="POST">
             {% csrf_token %}
         <div class="form-group my-3">
@@ -63,58 +43,5 @@
         </div>
     </form>
 
-    </div>
-</div>
-<!--MORE ABOUT YOU-->
-{% include 'home/moreYou.html' %}
-<!--SOCIAL MEDIA-->
-{% include 'home/socialForm.html' %}
-<!--LOGIN-->
-{% include 'home/login.html' %}
-    </div>
-</div>
-</div>
-{% else %}
-
-<div class="container-fluid container-main" >
-    <div class="top-bar sticky-top py-2" >
-        <a href="/"><i class="fas fa-home    "></i></a>
-        <h3 class="text-iosprimary "><b>meh</b></h3>
-        <a href="/home/search"><i class="fas fa-search "></i></a>
-    </div>
-    <div class="container-fluid">
-        {% include 'home/profile.html' %}
-    </div>
-        
-    
-</div>
-<div class="popup-bg">
-    <div class="all" id="photo">
-      <div class="popup p-2">
-          <i class="fa fa-times-circle text-iosgray dpp" aria-hidden="true" style="float: right;cursor:pointer;"></i>
-          <p></p>
-        <div class="qr-code">
-            <div class="spiner">
-            <center>
-                {% include 'home/ios-spiner.html' %}
-            </center>
-        </div>
-        <h4><b>meh</b></h4>
-        <h4><b class="text-iosprimary username"><center>{% include 'home/ios-spiner.html' %}</center></b></h4>
-            <img class="qr-img" style="width:200px;object-fit:contain;" src/>
-            <p>OR</p>
-            <p>Use <b>Magic link to share</b></p>
-            <p class="orlink text-iosprimary font-bold"></p>
-               
-        </div>
-      </div>
-    </div>
-  </div>
-{% endif %}
-
-<script>
-    $(document).ready(function(){
-        $('.loader').fadeOut(2000)
-    })
-</script>
-{% endblock content %}
+    </div>-->
+   

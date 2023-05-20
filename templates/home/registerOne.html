@@ -1,0 +1,162 @@
+{% extends 'home/base.html' %} {% block content %}
+<style>
+  .lemongreen {
+    background-color: #34c759;
+    color: #fafafa;
+    border: #34c759;
+  }
+  .btn-lg {
+    min-width: 300px;
+    height: 50px;
+  }
+  .data1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+
+
+
+<div class="center-box">
+  <div
+    class="container-fluid container-main  border"
+    style="background-color: #ffffff;height:auto;"
+  >
+  {% include 'home/navbar.html' %}
+
+<br><br>
+    <div class="container bg-light">
+      <div class="data1">
+        <div class="server-message"></div>  
+       <h3>Step 1 <small class="text-iosgray" style="font-size: 18px;">Step 2</small></h3>
+        <form class="form1 mt-3 form" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+              <label>Username</label>
+          </div>
+          <div class="form-group my-2">
+            <input
+              type="text"
+              name="username"
+              id="username"
+              placeholder="select a username"
+              class="ios-control p-2"
+            />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+        </div>
+          <div class="form-group my-2">
+            <input type="email" name="email" id="email" placeholder="Email"
+            class="ios-control p-2"">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+        </div>
+          <div class="form-group my-2">
+            <input
+              type="password"
+              name="password"
+              id="pswd"
+              placeholder="Password"
+              class="ios-control p-2"
+            />
+          </div>
+          <div class="form-group my-2">Date of birth</div>
+          <div class="form-group">
+            <input
+              type="date"
+              id="date-ob"
+              name="dob"
+              class="ios-control p-2"
+            />
+          </div>
+          <div class="form-group my-2">
+            <input type="text" name="emoji" id="emoji" placeholder="select an emoji 😅"
+            class="ios-control p-2"">
+          </div>
+          <div class="form-group my-2">Security question</div>
+          <div class="form-group">
+            <select class="ios-control p-2" name="ques" id="ques">
+              <option selected>Favourite food</option>
+              <option>Favourite book</option>
+              <option>Favourite movie</option>
+            </select>
+          </div>
+          <div class="form-group my-3">
+            <input
+              type="text"
+              id="ans"
+              name="ans"
+              placeholder="Your answer"
+              class="ios-control p-2"
+            />
+          </div>
+          <div class="form-group my-3">
+            <button class="btnios ios-pr next-btn">
+              Next
+            </button>
+          </div>
+        </form>
+        <p>Already have account?<a href="{% url 'loginPage' %}" class="text-iosprimary">Login</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".next-btn").on('click',function(e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/users/register/validateForm1",
+                data: {
+                    email:$('#email').val(),
+                    username:$('#username').val(),
+                    pswd:$('#pswd').val(),
+                    dob:$('#date-ob').val(),
+                    emoji:$('#emoji').val(),
+
+                    ques:$('#ques').find(":selected").text(),
+
+                    ans:$('#ans').val(),
+                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(data){
+                    console.log(data['no_account'][0])
+                    if(data['no_account'][0]==='true'){
+  
+                    $('.server-message').addClass('success')
+                    $('.server-message').html("Successfully registered")
+                    $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
+                    setTimeout(function(){
+                        $('.server-message').animate({top:'-5px',opacity:'0'},'fast')
+                    },1500)
+                    $('.data2').animate({left:'20px'})
+                    location.replace('/users/register/socialDone/edit/')
+                }
+                else{
+                    $('.server-message').addClass('critical')
+                    $('.server-message').html("Email already exist or invalid data")
+                    $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
+                    setTimeout(function(){
+                        $('.server-message').animate({top:'-85px',opacity:'0'},'fast')
+                    },1500)
+                }
+                },
+                error:function(data){
+                    $('.server-message').addClass('critical')
+                    $('.server-message').html("Server Error"+data.status)
+                    $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
+                    setTimeout(function(){
+                        $('.server-message').animate({top:'-85px',opacity:'0'},'fast')
+                    },1500)
+                }
+            });
+        })
+    })
+
+</script>
+ {% endblock content %}

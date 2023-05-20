@@ -1,0 +1,137 @@
+<style>
+    .profile-card{
+        height: 130px;
+        background-color: #fafafa;
+        margin: 10px;
+        border-radius: 20px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+</style>
+<div class="container text-center server-msg custom-msg-primary"></div>
+<!--<div class="navigator-bar py-2">
+    <div class="links-fa">
+        <a href="/"><i class="fas fa-home  mx-2  "></i></a>
+        <a href="/home/search"><i class="fas fa-search mx-2 "></i></a>
+        <span class="location"><i class="fas fa-location-arrow  text-iosprimary  "></i></span>
+        <span><i class="fas fa-qrcode text-iosdark openPOP" data-bs-toggle="tooltip" data-bs-placement="right" title="QR code to share profile"     style="cursor: pointer;"></i></span>
+        <a href="/settings"><i class="fas fa-cog  mx-2 "></i></a>
+    </div></div>-->
+    <br>
+<div class="vists"></div>
+        <input type="hidden" value="{{request.user.username}}" id="user">
+        <div class="container mx-auto">
+            <span class="text-iosdark" style="font-size: 24px;"><b>near to you</b></span>
+            <p class="text-iosgray" style="font-size: 12px;font-weight:lighter;">based on your location</p>
+        <div class="main-data-on-location">          
+            <center>
+                {% include 'home/ios-spiner.html' %}
+            </center>
+    
+        </div>
+    </div>
+    </div>
+<script>
+    var user = document.getElementById('user').value
+    var locationIs ="on";
+    $.get("/api/location/"+user+"/",function(data){
+        locationIs=data['location_sharing'];
+        if(data['location_sharing']=="on"){
+            
+            getLocation();
+            $(".server-msg").html("Location is enabled");
+            
+            $(".server-msg").effect("bounce");
+
+        }else{
+            $('.fa-location-arrow').addClass("text-iosgray")
+            $(".server-msg").removeClass("custom-msg-primary");
+            $(".server-msg").addClass("custom-msg-warning");
+            $(".server-msg").html("Location is disabled");
+            locationIs = "off"
+            $(".server-msg").effect("shake");
+        }
+    })
+    function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+          if(locationIs=="on"){
+            navigator.geolocation.getCurrentPosition(putPosition);
+          }
+        } else {
+            $(".nearby-people").html("Geolocation is not supported by this browser.");
+        }
+      }
+getLocation()
+      function showPosition(position) {               
+                $.ajax({
+                    type: "POST",
+                    url: "/users/location/processloacation/",
+                    data: {
+                        longitude:position.coords.longitude,
+                        latitude:position.coords.latitude,
+                        accuracy:position.coords.accuracy,
+                    },
+                    success: function(data){
+                           if(data['users'].length!=0){
+                            $('.main-data-on-location').html('')
+                            /*${data['users'][i].dist.toFixed(2)}*/
+                                for (var i=0; i < data['users'].length; i++) {
+                                    var username = data['users'][i].id
+                                    console.log(data['users'][i])
+                                    var item = `
+                                    <a style="text-decoration:none;" 
+                                    class="text-iosdark pl-2" href="/${data['users'][i].id}"> 
+                                    <div class="profile-card">
+                                        <div>
+                                        
+                                           <b> ${data['users'][i].id}</b>
+                                        
+                                        <p class="text-iosgray">${data['users'][i].userData.name}</p>
+                                    </div>
+                                    </div></a>`;
+
+                                        (data['users'][i].id?$('.main-data-on-location').append(item):item = "")
+                                        
+                                    }
+                                }
+                           else{
+                            $('.main-data-on-location').html(`<p class="text-iosgray">No user nearby!</p>`)
+                           }
+                    },
+                    error:function(data){
+                        console.error(data)
+                    }
+                });
+            
+            
+}
+
+function putPosition(position) {
+
+    $(document).ready(function(e){
+        $.ajax({
+            type: "POST",
+            url: "/users/location/putloacation/",
+            data: {
+                longitude:position.coords.longitude,
+                latitude:position.coords.latitude,
+                accuracy:position.coords.accuracy,
+            },
+            success: function(data){
+                   console.log('data uploaded')
+            },
+            error:function(data){
+                console.log('error')
+            }
+        });
+    })
+}
+
+
+
+</script>
+
+
+

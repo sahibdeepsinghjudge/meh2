@@ -1,8 +1,8 @@
-from usersData.models import socialAcc
+from usersData.models import info, socialAcc
 from django.http.response import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
-
+from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def home(request):
@@ -36,3 +36,27 @@ def exProfilePage(request,username):
         'user_to':username
     }
     return render(request,'home/exProfile.html',context)
+
+
+def loginPage(request):
+    logout(request)
+    return render(request,'home/login.html')
+
+def registerPage(request):
+    logout(request)
+    return render(request,'home/registerOne.html')
+
+def launchSettings(request):
+    if request.user.is_authenticated:
+        userObj = User.objects.get(username = request.user)
+        infoObj = info.objects.get(user = userObj)
+        context = {
+            'data':infoObj
+        }
+        return render(request,'home/settings.html',context)
+    else:
+        return redirect("/")
+
+def myProfile(request):
+    return render(request,'home/myProfile.html')
+

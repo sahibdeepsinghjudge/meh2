@@ -1,0 +1,177 @@
+<style>
+     .mid-text{
+        position: absolute;
+        top: 50%;
+        left: 20%;
+        transform: translate(-25%, -50%); 
+     }
+     .header{
+        background-color: #000000;
+        width: 100%;
+        height: 100vh;
+     }
+     .title{
+        font-size:200px;
+        color: #000000;
+        font-weight: 900;
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: rgb(255, 255, 255);
+     }
+     .sub-heading{
+        margin-top: -50px;
+        font-size: 100px;
+        color: white;
+     }
+     .join-us-button{
+        outline: none;
+        border: none;
+        background-color: #fff;
+        color: #000000;
+        width: 300px;
+        height:40px;
+        font-weight: 700 !important;
+        font-size: 20px;
+     }
+     .main-body{
+        background-color: #ffffff;
+        color: #000000;
+        padding: 30px;
+     }
+     .main-text{
+        font-size: 100px;
+        font-weight: 900;
+     }
+     .main-sub-text{
+        font-size: 50px;
+        font-weight: 700;
+    }
+    .black{
+        background-color: #000000;
+        color: #fff;
+    }
+    .business-text{
+        color: #fff;
+        font-size: 150px;
+        font-weight: 900;
+        padding: 40px;
+    }
+</style>
+
+<section class="header">
+    <div class="mid-text">
+        <h1 class="title">meh</h1>
+        <h3 class="sub-heading">unique way to connect</h3>
+        <button class="join-us-button">join us</button>
+    </div>
+</section>
+<section class="main-body">
+    <div class="main-text">
+        find, connect &share.
+    </div>
+    <div class="main-sub-text">
+        see what’s happening near you. <br>
+    </div>
+    <button class="join-us-button black">join us</button>
+</section>
+<section class="header">
+        <div class="business-text">
+            Business are <br>
+            not left behind
+            <button class="join-us-button">know more</button>
+
+        </div>
+</section>
+<!--
+
+<section class="hero-section-welcome"> 
+    
+    <div class="text-center">
+        <div class="white-bg">
+            <h1 class="app-title">welcome to meh</h1>
+            <div class="container">
+                <a href="{% url 'loginPage' %}"><button class="btnios ios-pr">Sign in</button></a>
+                <a href="{% url 'registerPage' %}"><button class="btnios ios-pr-green">Sign Up</button></a>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container p-4  text-center">
+        <div class="container mt-4">
+            <p class="text-center text-dark"><i class="fab fa-instagram  px-2  "></i><i class="fab fa-youtube   px-2 "></i><i class="fab fa-snapchat  px-2  "></i><i class="fab fa-facebook   px-2 "></i><i class="fab fa-twitch px-2"></i> <i class="fab fa-twitter px-2   "></i>
+                <i class="fab fa-discord  px-2  "></i><i class="fab fa-telegram  px-2 "></i><i class="fab fa-linkedin  px-2 "></i><i class="fas fa-globe  px-2  "></i><i class="fas fa-phone  px-2  "></i><i class="fas fa-envelope px-2 "></i>
+            </p>
+        </div>
+        <h1>Share all your Social media handles<br> with just one <b>Magic Link</b></h1>
+      <h5 class="py-4 text-gray">When you register on <span>meh</span> we genrate a custom Magic link for your profile.<br>Sharing this <b>Magic link</b> with your friends and it is done.</h5>
+        </div>
+        <h1 class="text-center">Features Available </h1>
+        <div class="images display-flex2">
+            <div class="img1 text-center">
+                <div class="img-title">Your Profile</div>
+                <img src="/media/profile.png" alt="" class="img-fluid" style="height: 400px;" >
+            </div>
+            <div class="img1 text-center">
+                <div class="img-title">Your Profile</div>
+                <img src="/media/profile.png" alt="" class="img-fluid" style="height: 500px;" >
+            </div>
+            <div class="img1 text-center">
+                <div class="img-title">Your Profile</div>
+                <img src="/media/profile.png" alt="" class="img-fluid" style="height: 500px;" >
+            </div>
+            <div class="img1 text-center">
+                <div class="img-title">Your Profile</div>
+                <img src="/media/profile.png" alt="" class="img-fluid" style="height: 500px;" >
+            </div>
+            <div class="img1 text-center">
+                <div class="img-title">Your Profile</div>
+                <img src="/media/profile.png" alt="" class="img-fluid" style="height: 500px;" >
+            </div>
+            <div class="img1 text-center">
+                <div class="img-title">Your Profile</div>
+                <img src="/media/profile.png" alt="" class="img-fluid" style="height: 500px;" >
+            </div>
+        </div>
+       
+    
+</section>
+-->
+<script>
+    
+    /*$(function() {
+        dataUpdate();
+    });
+    function dataUpdate(){
+        setTimeout(dataUpdate,1000);
+        $.get("/api/registers/",function(data){     
+            $(".username").html(`<b>${data['RegisterObj'].length} people have already registered.</b>`)     
+        })
+    }
+    $(document).ready(function(){
+        $(".register-btn").on('click',function(e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/users/put/email/",
+                data: {
+                    email:$('#email').val(),
+                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(data){
+                    console.log(data["resp"])
+                   if(data['resp']==='created'){
+                        $('.forms').html("Registered successfully")
+                }
+                else{
+ 
+                $('.forms').html("Already registered")
+                }
+                },
+                error:function(data){
+                $('.forms').html("Server Error"+data.status)
+                }
+            });
+        })
+    })
+   */
+</script>

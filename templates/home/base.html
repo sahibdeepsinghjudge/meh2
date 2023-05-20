@@ -4,92 +4,65 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>meh|Social Links</title>
+    <title>Meh|Beta1</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"  />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" >
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+
+    <!--
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/istrap@1.0.1/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/istrap@1.0.1/assets/css/istrap.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/istrap@1.0.1/assets/js/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/istrap@1.0.1/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/istrap@1.0.1/assets/js/smooth-scrollbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/istrap@1.0.1/assets/js/istrap.js"></script>
+    <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+    <script>
+    -->
     <link rel="stylesheet" href="/media/index.css">
     <link rel="stylesheet" href="/media/ios.css">
+    <link rel="stylesheet" href="/media/pages.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/media/ispinner.prefixed.css">
-    <script>
+
+
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<script  src="/media/html2canvas.min.js"></script>
+    <script src="/media/easy.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
         $( function() {
             $( ".dpp" ).on( "click", function() {
-             $(".popup-bg").css('display','none')
+             $(".popup-bg").fadeOut({display:'none'},'slow');
             });
             } );
-            
+
         $( function() {
             $( ".openPOP" ).on( "click", function() {
-             $(".popup-bg").css({'display':'block'},1000)
-             $(".openPOP").toggleClass('active',1000)
-             $(".all").toggleClass('animatedUP',1000)
+             $(".popup-bg").css({'display':'block'})
+             $(".openPOP").toggleClass('active')
+             $(".all").addClass('animatedUP')
             });
             } );
     </script>
-    
+
 </head>
 <body>
     {% block content %}
     {% endblock content %}
-    
 </body>
 <script>
-    $(document).ready(function(){
-        $(".next-btn").on('click',function(e){
-            e.preventDefault();
-            $.ajax({
-                type: "POST",
-                url: "/users/register/validateForm1",
-                data: {
-                    email:$('#email').val(),
-                    username:$('#username').val(),
-                    pswd:$('#pswd').val(),
-                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
-                },
-                success: function(data){
-                    console.log(data['no_account'][0])
-                    if(data['no_account'][0]==='true'){
-                    $('.data1').animate({right:'450px',opacity:'0'},'fast')
-                    $('.server-message').addClass('success')
-                    $('.server-message').html("Email validated")
-                    $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
-                    setTimeout(function(){
-                        $('.server-message').animate({top:'-5px',opacity:'0'},'fast')
-                    },1500)
-                    $('.data2').animate({left:'20px'})
-                    $('.data1').html('')
-                }
-                else{
-                    $('.data1').animate({top:'-10vh'},'fast')
-                    $('.data1').animate({top:'0vh'},'fast')
-                    $('.server-message').addClass('critical')
-                    $('.server-message').html("Email already exist")
-                    $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
-                    setTimeout(function(){
-                        $('.server-message').animate({top:'-85px',opacity:'0'},'fast')
-                    },1500)
-                }
-                },
-                error:function(data){
-                    $('.data1').animate({top:'-10vh'},'fast')
-                    $('.data1').animate({top:'0vh'},'fast')
-                    $('.server-message').addClass('critical')
-                    $('.server-message').html("Server Error"+data.status)
-                    $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
-                    setTimeout(function(){
-                        $('.server-message').animate({top:'-85px',opacity:'0'},'fast')
-                    },1500)
-                }
-            });
-        })
-    })
-    
-    
-    
+
+
+
+
     $(document).ready(function(){
         $(".form2").on('submit',function(e){
-        
+
             e.preventDefault();
             $.ajax({
                 type: "POST",
@@ -101,7 +74,7 @@
                     ques:$('#ques').find(":selected").text(),
                     ans:$('#ans').val(),
                     csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken][1]').val()
-                    
+
                 },
                 success: function(data){
                     if(data==='created'){
@@ -142,10 +115,10 @@
             });
         })
     })
-    
-    
-    
-    
+
+
+
+
     $(document).ready(function(){
         $(".sub-btn").on('click',function(e){
             e.preventDefault();
@@ -193,79 +166,11 @@
             });
         })
     })
-    
-    
-    $(document).ready(function(){
-        $(".login").on('click',function(e){
-            e.preventDefault;
-            let status_d;
-            status_d = true;
-            if(status_d==true){
-                $('.data1').animate({right:'450px',opacity:'0'},'fast')
-                $('.data4').animate({left:'10px'})
-            }
-            else{
-                $('.data2').animate({top:'-10vh'},'fast')
-                $('.data2').animate({top:'5vh'},'fast')
-                $('.server-message').removeClass('success')
-                $('.server-message').addClass('critical')
-                $('.server-message').html("Problem occured")
-                $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
-                setTimeout(function(){
-                    $('.server-message').animate({top:'-85px',opacity:'0'},'fast')
-                },1500)
-            }
-        })
-    })
-    
-    $(document).ready(function(){
-        $(".login-btn").on('click',function(e){
-            e.preventDefault();
-            $.ajax({
-                type: "POST",
-                url: "/users/login/",
-                data: {
-                    username:$('#log-username').val(),
-                    password:$('#log-pswd').val(),
-                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
-                },
-                success: function(data){
-                    if(data==='success'){
-                        $('.forms').animate({opacity:'0'},'fast')
-                        $('.server-message').addClass('success')
-                        $('.server-message').html("Login successfull")
-                        $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
-                        setTimeout(function(){
-                            $('.server-message').animate({top:'-5px',opacity:'0'},'fast')
-                        },1500)
-                        location.reload();
-                }
-                else{
-                $('.data3').animate({top:'-10vh'},'fast')
-                $('.data3').animate({top:'5vh'},'fast')
-                $('.server-message').removeClass('success')
-                $('.server-message').addClass('critical')
-                $('.server-message').html("Username or password invalid")
-                $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
-                setTimeout(function(){
-                    $('.server-message').animate({top:'-85px',opacity:'0'},'fast')
-                },1500)
-                }
-                },
-                error:function(data){
-                $('.data3').animate({top:'-10vh'},'fast')
-                $('.data3').animate({top:'5vh'},'fast')
-                $('.server-message').removeClass('success')
-                $('.server-message').addClass('critical')
-                $('.server-message').html("Server Error"+data.status)
-                $('.server-message').animate({top:'-5px',opacity:'1'},'fast')
-                setTimeout(function(){
-                    $('.server-message').animate({top:'-85px',opacity:'0'},'fast')
-                },1500)
-                }
-            });
-        })
-    })
+
+
+
+
+
 </script>
 
 

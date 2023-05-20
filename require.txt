@@ -1,0 +1,15 @@
+asgiref==3.4.1
+certifi==2021.5.30
+charset-normalizer==2.0.4
+Django==3.0.4
+djangorestframework==3.12.4
+fontawesome-free==5.15.3
+gunicorn==19.0.0
+idna==3.2
+pypng==0.0.20
+PyQRCode==1.2.1
+pytz==2021.1
+requests==2.26.0
+sqlparse==0.4.1
+urllib3==1.26.6
+whitenoise==5.3.0

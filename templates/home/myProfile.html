@@ -1,0 +1,414 @@
+
+{% extends 'home/base.html' %}
+{% block content %}
+<style>
+    .bio{
+        word-wrap: break-word;
+    }
+    .social{
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+    .insight{
+        background-color: #fafafa;
+        border-radius: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+    }
+    .emoji2{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #fff;
+        margin-bottom: 15px;
+        font-size: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #copy-btn{
+          cursor: pointer;
+      }
+      .info{
+          width: auto;
+          padding: 10px;
+          background-color: #fafafa;
+          margin-left: auto;
+          margin-right: auto;
+          border-radius: 20px;
+          text-align: center;
+      }
+      .emoji{
+          width: 175px;
+          height: 175px;
+          border-radius: 50%;
+          background-color: #fff;
+          margin-left: auto;
+          margin-right: auto;
+          margin-bottom: 15px;
+          font-size: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      .tabs{
+          width: 115px;
+          height: 108px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18pt;
+      }
+</style>
+<div class="container-fluid container-main" >
+    {% include 'home/navbar.html' %}
+
+    <br><br>
+{% if not request.user.is_authenticated %}
+<div class="container bg-white py-2 text-center">
+    <b>New to <span class="text-iosprimary">meh</span>?</b>
+</div>
+<div class="container bg-white py-2 text-center join-now">
+    <b>Join Now</b>
+    <a href="/login/page-next/"><button class="btnios-na ios-pr">Login</button></a>
+    <a href="/register/page-next/"><button  class="btnios-na ios-pr-red">Register</button></a>
+</div>
+
+{% else %}
+        <span class="mx-4" style="font-size: 24px;"><span class="text-iosprimary">{{request.user}}'s</span> profile </span>
+        <div class="profile">
+            <input type="hidden" id="user_to" value="{{request.user}}"/>
+        <div class="info">
+            <center>
+                {% include 'home/ios-spiner.html' %}
+            </center>
+        </div>
+        <br>
+        <div class="container insight" id="insight">
+            <span class="my-3 mx-3" style="font-size: 24px;">Insights</span>
+             <br>
+            <div class="insights mt-2">
+                 <div class="flexbox">
+                     <div class="container p-4 tabs rawVisits" style="background:#ddffd7;color:#2DAD00;border-radius:10px;">14</div>
+                     <div class="container p-4 tabs uqVisits" style="background:#d0eeff;color:#2F80ED;border-radius:10px;">80</div>
+                     <div class="container p-4 tabs" style="background:#ffdcd1;color:#FF4141;border-radius:10px;">80</div>
+
+                 </div>
+            </div>
+
+        </div>
+<br>
+<p class="mb-2 text-center card-help-text">Click on card to download.</p>
+
+        <div class="container insight  down-btn shadow  d-flex justify-content-around align-items-end" id="meh-card">
+            <div class="container">
+                 <div class="emoji2" ></div>
+
+                <h4 class="text-iosdark card-username" style="text-transform: capitalize;"><center>{% include 'home/ios-spiner.html' %}</center></h4>
+                <span class="card-bio"></span><br>
+                <span class="text-iosprimary">meh.connect/<span class="username"></span></span><br>
+            </div>
+            <div class="conatiner px-3">
+                <p class="logo-meh">meh</p>
+                    <div class="qr-code ">
+                    <script type="text/template" id="qrcodeTpl">
+                        <div class="imgblock">
+                            <div class="qr"  id="qrcode_{i}"></div>
+                        </div>
+                    </script>
+
+                    </div>
+            </div>
+
+           </div>
+           <div id="meh-card-out">
+
+           </div>
+
+        </div>
+        <div class="form-social">
+        </div>
+
+        <div id="output"></div>
+
+        <script>
+        function myFunction() {
+          var copyText = document.getElementById("myInput");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999);
+          document.execCommand("copy");
+          $('#copy-btn').html(`<i class="fas fa-check-circle  text-light  "></i>`)
+        }
+        </script>
+
+
+        <script>
+            function getMOPsys() {
+                var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+                // Windows Phone must come first because its UA also contains "Android"
+                if (/windows phone/i.test(userAgent)) {
+                    return "Windows Phone";
+                }
+
+                if (/android/i.test(userAgent)) {
+                    return "Android";
+                }
+
+                // iOS detection from: http://stackoverflow.com/a/9039885/177710
+                if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                    return "iOS";
+                }
+
+                return "desktop";
+            }
+            $(".join-now").effect("shake");
+            const os = getMOPsys();
+            //fetch data from api
+            var user = document.getElementById('user_to').value
+        function getData(){
+            fetch('/api/'+user+'/').then(response => response.json())
+            .then(data => {
+                if(data['status']==404){
+                    $(".profile").html(`<h1 class="text-center">404 User Not Found!</h1>`)
+                }
+                else if(data['status']==420){
+                    $('.info').html("Incomplete Profile")
+                    $('.social').html(`<div class="accs text-iosdanger">Profile setup incomplete.</div>`)
+                }else{
+                var d = new Date(data['Info']['dob'])
+            var dobBack = d.getDate()+"/"+d.getMonth()
+            var today = new Date()
+            var checkDob = today.getDate()+"/"+today.getMonth()
+            if( dobBack == checkDob){
+                $(".hbd").html('Happy birthday to You')
+            }
+            else{
+                $('.hbd').addClass('seen')
+
+            }
+                var acc_type = data['Info']['acc_type']
+
+                if(data['status']=='200'&&'204'){
+                    $('.acc').html(acc_type )
+                    if(acc_type=='Personal'){
+                        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                        $('.info').html('')
+                        $('.emoji2').html(data['Info']['profile_emoji'])
+                        $('.card-bio').html(data['Info']['bio'])
+                        $('.info').html(`
+                        <div class="container py-3">
+                            <div class="emoji">${data['Info']['profile_emoji']}</div>
+                        <div class="font-bold text-iosdark" ><p style="font-size:24pt;">${(data['Extra-Data']['Verified']===true)?data['UserObj']['username']+` <i class="material-icons  text-iosprimary" style="font-size:16px;">
+                            verified
+                        </i></p>`:data['UserObj']['username']}</div>
+                        <p class="text-black" style="font-size:16pt;"><span class="ml-2">${d.getDate()+' '+ months[d.getMonth()]}</span> 🎂</p>
+                        <p class="text-black bio">${
+                            data['Info']['bio'].length >=150?data['Info']['bio'].substring(0,150)+'...' :data['Info']['bio']
+
+                         }</p>
+                         <a href="{% url 'editpersonal' %}" class="text-iosprimary">edit</a>
+                    </div>
+                        `)
+                        $('.username').html('');
+                        $('.username').html(data['UserObj']['username']);
+
+                        $('.card-username').html(`
+                        <div class="font-bold text-iosdark" ><p style="font-size:14pt;">${(data['Extra-Data']['Verified']===true)?data['UserObj']['username']+` <i class="material-icons  text-iosprimary" style="font-size:16px;">
+                            verified
+                        </i></p>`:data['UserObj']['username']}</div>
+                        `);
+                        $('.orlink').html(window.location.href+data['UserObj']['username'])
+                        $('.magiclink').html('')
+                        $('.nput').html(`<input type="text" class="ios-control bg-dark text-light" value="${window.location.href}${data['UserObj']['username']}" id="myInput">
+                        <span onclick="myFunction()" id="copy-btn"  class="py-3">
+                          <i class="fas fa-copy   text-light "></i>
+                        </span>`)
+                $('.orlink').html(window.location.href)
+            }
+            else{
+                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                $('.info').html('')
+                $('.info').html(`
+                <div class="container bg-light rounded-sm shadow-sm py-3">
+                    <span>Business name</span><br>
+                    <img src="#" class="img-fluid"><br>
+                    <span>${data['userdata'][0]}</span><br>
+                    <span>Email: ${data['userdata'][1]}</span><br>
+                    </div>
+                    <br>
+                <div class="container bg-light rounded py-3">
+                <p class="font-bold text-iosprimary">@${data['userdata'][0]}</p>
+                <p class="font-bold">${data['userdata'][1]}</p>
+
+                <p class="text-iosgray"><i class="fas fa-birthday-cake  pr-2  text-warning"></i> <span class="ml-2">${d.getDate()+' '+ months[d.getMonth()]}</span></p>
+                <p class="text-iosgray">${data['info'][2]}</p>
+                </div>`)
+            }
+            function appendSocial(){
+                var facbookLink;
+                if(os=="Android" || os=="iOS"){
+                    facbookLink = 'fb://facewebmodal/f?href=https://www.facebook.com/'
+                    instaLink='instagram://user?username='
+                    twitterLink='https://www.twitter.com/'
+                }
+                else{
+                    facbookLink = 'https://www.facebook.com/'
+                    instaLink = 'https://www.instagram.com/'
+                    twitterLink='https://www.twitter.com/'
+                    }
+                    $('.info').append(`
+                    <div class="accs">
+                        ${data['Social']['facebook'] ? `<div class="container bg-white rounded  py-2 mt-1"><a href="${facbookLink}${data['Social']['facebook']}"><i class="fab fa-facebook text-iosprimary bg-ioslight p-2 rounded"></i><span class="font-bold mx-2"> ${data['Social']['facebook']} </span></a></div> ` : ``}
+                        ${data['Social']['instagram'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="${instaLink}${data['Social']['instagram']}"><i class="fab fa-instagram bg-ioslight text-iosorange  p-2 rounded"></i><span class="font-bold mx-2">${data['Social']['instagram']}</span></a></div>`: ``}
+                        ${data['Social']['youtube'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="${data['Social']['youtube']}"><i class="fab fa-youtube text-iosred bg-ioslight p-2 rounded "></i><span class="font-bold mx-2">YouTube</span></a></div>`: ``}
+                        ${data['Social']['snapchat'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="https://snapchat.com/add/${data['Social']['snapchat']}"><i class="fab fa-snapchat  bg-ioslight p-2 rounded text-snapchat"></i><span class="font-bold mx-2">${data['Social']['snapchat']}</span></a></div>`: ``}
+                        ${data['Social']['twitter'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="${twitterLink}${data['Social']['twitter']}"><i class="fab fa-twitter bg-ioslight p-2 rounded text-primary"></i><span class="font-bold mx-2">${data['Social']['twitter']}</span></a></div>`: ``}
+                        ${data['Social']['telegram'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="https://t.me/${data['Social']['telegram']}"><i class="fab fa-telegram bg-ioslight p-2 rounded text-telegram"></i><span class="font-bold mx-2">${data['Social']['telegram']}</span></a></div>`: ``}
+                        ${data['Social']['discord'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="${data['Social']['discord']}"><i class="fab fa-discord bg-ioslight p-2 rounded text-purple"></i><span class="font-bold mx-2">${data['Social']['discord']}</span></a></div>`: ``}
+                        ${data['Social']['twitch'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="twitch://${data['Social']['twitch']}"><i class="fab fa-twitch text-twitch bg-ioslight p-2 rounded"></i><span class="font-bold mx-2">${data['Social']['twitch']}</span></a></div>`: ``}
+                        ${data['Social']['linkedin'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="${data['Social']['linkedin']}"><i class="fab fa-linkedin text-linkedin bg-ioslight p-2 rounded"></i><span class="font-bold mx-2">Linkedin</span></a></div>`: ``}
+                        ${data['Social']['website'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="${data['Social']['website']}"><i class="fas fa-globe text-primary bg-ioslight p-2 rounded"></i><span class="font-bold mx-2">Website</span></a></div>`: ``}
+
+                        ${data['Social']['gmail'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="#"><i class="fas fa-envelope bg-ioslight p-2 rounded text-danger"></i><span class="font-bold mx-2" id="gmail">${
+                        data['Social']['gmail'].length >=15?data['Social']['gmail'].substring(0,15)+'...' :data['Social']['gmail']
+
+                }</span></a></div>`: ``}
+                ${data['Social']['phone_no'] ?`<div class="container bg-white rounded py-1 mt-1 mb-2"><i class="fas fa-phone  bg-ioslight p-2 rounded text-primary  "></i><a href="tel:${data['Social']['phone_no']}"> <span class="font-bold mx-2">${data['Social']['phone_no']}</span></a></div>`: ``}
+
+            </div>
+            <a href="/users/register/socialDone/edit/" class="text-iosgray"><i class="fas fa-cog text-primary bg-ioslight p-2 rounded"></i></a>
+            `)
+            $('.rawVisits').html(data['Extra-Data']['raw-count'])
+            $('.uqVisits').html(data['Extra-Data']['unique'])
+            $('#gmail').on('click',function(){
+                $('#gmail').html(data['Social']['gmail'])
+                setInterval(function(){
+                    data['social'][7].length >=15?data['Social']['gmail'].substring(0,15)+'...' :data['Social']['gmail']
+                },5000)
+            }
+            )
+            }
+            data['status']=='200'?appendSocial(): $('.social').html(`<div class="accs">No social media accounts</div>`)
+           function qrcode(){
+
+            setTimeout(function(){
+                $('.magiclink').html('')
+                $('.nput').html(`<input type="text" class="ios-control bg-dark text-light" value="${window.location.href}" id="myInput">
+                <span onclick="myFunction()" id="copy-btn"  class="px-3 py-3">
+                  <i class="fas fa-copy   text-light "></i>
+                </span>`)
+                var demoParams = [
+                    {
+                        title:'',
+                        config: {
+                            text: "mehconnect.pythonanywhere.com/"+user,
+
+                            width: 110,
+                            height: 110,
+                            colorDark: "#1c1c1e",
+
+
+                            PI: '#1c1c1e',
+                            timing_H:0,
+                            correctLevel: QRCode.CorrectLevel.M, // L, M, Q, H
+
+                            binarize: true
+                        }
+
+                    },
+                ]
+                var qrcodeTpl = document.getElementById("qrcodeTpl").innerHTML;
+                var container = document.querySelector('.qr-code');
+
+                for (var i = 0; i < demoParams.length; i++) {
+                    var qrcodeHTML = qrcodeTpl.replace(/\{title\}/, demoParams[i].title).replace(/{i}/, i);
+                    container.innerHTML+=qrcodeHTML;
+                }
+                for (var i = 0; i < demoParams.length; i++) {
+                     var t=new QRCode(document.getElementById("qrcode_"+i), demoParams[i].config);
+                }
+
+
+
+            },2000)
+        }
+        if(data['Settings'][0]['mehCard']=='off'){
+            $("#meh-card").remove()
+            $(".card-help-text").remove()
+
+
+        }else{
+            qrcode()
+        }
+        if(data['Settings'][0]['insights']=='off'){
+            $("#insight").remove()
+
+        }
+            }
+            else{
+                console.log(data['status'],data['message'])
+                $('.profile').html(`<h2 class="font-bold">${data['status']}</h2><p>${data['message']}</p><p><a href="/">Back to home</a></p>`)
+                $('.magiclink').html('')
+                $('#magic-info').html('')
+
+            }}
+        })
+
+        }
+        getData();
+
+        $('.js-textareacopybtn').on('click', function() {
+         var copyText = $('.js-copytextarea');
+          /* Select the text field */
+          copyText.select();
+          copyText.setSelectionRange(0, 99999); /* For mobile devices */
+          /* Copy the text inside the text field */
+          document.execCommand("copy");
+
+          /* Alert the copied text */
+          alert("Copied the text: " + copyText.value);
+
+        });
+        function takeshot() {
+            let div =document.getElementById('photo');
+            html2canvas(div).then(
+                function (canvas) {
+                    document
+                    .getElementById('output')
+                    .appendChild(canvas);
+                })
+        }
+
+        </script>
+        {% endif %}
+    </div>
+
+
+<script>
+    function redirect_to(app_name,fwd_data){
+        document.write("Redirecting you to "+app_name)
+        setTimeout(function(){
+            window.location.replace(fwd_data);
+         }, 5000);
+
+    }
+
+    $(".down-btn").on('click',function(){
+        html2canvas(document.getElementById("meh-card"), {
+            allowTaint: true, useCORS: true
+        }).then(function (canvas) {
+            var anchorTag = document.createElement("a");
+            document.body.appendChild(anchorTag);
+
+            anchorTag.download = "filename.jpg";
+            anchorTag.href = canvas.toDataURL();
+            anchorTag.target = '_blank';
+            anchorTag.click();
+        });
+    })
+
+</script>
+
+{% endblock content %}

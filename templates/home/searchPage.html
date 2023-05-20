@@ -1,52 +1,22 @@
 {% extends 'home/base.html' %}
 {% block content %}
-<style>
-    .ser-result{
-        display: flex;
-        align-items: center;
-        text-align: left;
-    }
-    .results,.social-res{
-        width: 350px;
-        max-height:350px;
-        overflow-y: scroll;
-    }
-    .ser{
-        text-align: left;
-        font-weight: 900;
-    }
-    .mehapp,.soci{
-        width: 350px;
-        text-align: left;
-    }
-    .ser-result>a{
-        color: #1c1c1e;
-        text-decoration: none;
-    }
-    .text-rev-snap{
-        color: #0084ff;
-        -webkit-text-stroke-width: 1px;
-        -webkit-text-stroke-color: #000;
-    }
-</style>
-<div class="container-fluid text-center container-main" style="height:100vh;" >
-    <div class="top-bar sticky-top py-2" >
-        <a href="/"><i class="fas fa-home    "></i></a>
-        <h3 class="text-iosprimary "><b>meh</b></h3>
-        <a href="/home/search"><i class="fas fa-search "></i></a>
-    </div>
-    <div class="container ser text-center">
-        <h3 class="font-bold"><span class="text-snapchat">Spotlight</span><span class="text-rev-snap"> search</span></h3>
-    </div>
-        
-        <form method="POST" class="form-search">
+
+<div class="container-fluid  container-main" style="min-height: 105vh;" >
+    {% include 'home/navbar.html' %}
+<br><br>    
+<!--<div class="container mx-4 text-left">
+    <span class="text-iosdark" style="font-size: 24px;"><b>spotlight search</b></span>
+    <p class="text-iosgray " style="font-size: 12px;font-weight:lighter;">search across all social media accounts at once</p>
+</div>    -->
+        <form method="POST" class="form-search text-center">
             {% csrf_token %}
             <div class="form-group my-2">
-            <input type="search" name="search" id="search_input" class="ios-control p-2" placeholder="     Search">
+            <input type="search" name="search" id="search_input" class="ios-control p-2 " style="width:100%;font-weight:lighter;" placeholder="     usernames,email,phone number,.....">
             </div>
         </form>
+        
         <center>
-            <div class="container">
+            <div class="container ">
                 <h5 class="mehapp"></h5>
             </div>
             <div class="results">
@@ -65,8 +35,12 @@
 </div>
 
 <script>
+    fetch('/users/admin/user-count/').then(response => response.json())
+    .then(data => {
+        $('.totaluser').html(data['count'])
+    })
     $(document).ready(function(){
-        $(".form-search").on('submit',function(e){
+        $(".form-search").keyup(function(e){
             $(".results").html(`<center>
                 {% include 'home/ios-spiner.html' %}
             </center>`)
@@ -97,23 +71,23 @@
                 
                     $('.results').html('')
                     if (objData === false){
-                        $('.mehapp').html(`<b class="text-iosgray"><span class="text-rev-snap">meh</span><span class="text-iosprimary"> search</span></b>`)
+                        $('.mehapp').html(`<span class="text-iosdark" style="font-size: 24px;"><b>results</b></span>`)
                         $('.results').html('No results found!')
                     }
                     else{
-                        $('.mehapp').html(`<b class="text-iosgray"><span class="text-rev-snap">meh</span><span class="text-iosprimary"> search</span></b>`)
+                        $('.mehapp').html(`<span class="text-iosdark" style="font-size: 24px;"><b>results</b></span>`)
                         for (i in data['objs']){
                             $('.results').append(`<li class="container bg-white border  font-bold text-black ser-result py-2 mt-1"><a href="/${data['objs'][i]}">${data['objs'][i]}</a></li>`)
                         }
                         
                     }
                     if (socialData === false){
-                        $('.soci').html(`<b class="text-iosgray"><span class="text-snapchat">Spotlight</span><span class="text-rev-snap"> search</span> <i class="fas fa-lightbulb text-snapchat   "></i></b>`)
+                        $('.soci').html(`<span class="text-iosdark" style="font-size: 24px;"><b>spotlight search</b></span>`)
                         $('.social-res').html('No results found!')
                     }
                     else{
                         $('.social-res').html('')
-                        $('.soci').html(`<b class="text-iosgray"><span class="text-snapchat">Spotlight</span><span class="text-rev-snap"> search</span> <i class="fas fa-lightbulb text-snapchat   "></i></b>`)
+                        $('.soci').html(`<span class="text-iosdark" style="font-size: 24px;"><b>spotlight search</b></span>`)
                         for (i in data['social']){
                             $('.social-res').append(`<li class="container bg-white border  font-bold text-black ser-result py-2 mt-1"><a href="/${data['social'][i]}">${data['social'][i]}</a></li>`)
                         }

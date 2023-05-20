@@ -52,7 +52,7 @@ body {
 
 .ios-sp-sm {
   font-weight: 400;
-  background-color: #0a84ff;
+  background-color: #0a85ff;
   background: var(--ios-btn-sp-webkit);
   background: var(--ios-btn-sp);
   border-color: var(--ios-btn-sp-border);
@@ -282,7 +282,7 @@ body {
   border-radius: 20px;
 }
 .ios-control {
-  background: #f2f2f7;
+  background: #fafafa;
   padding: 5px;
   width: 800px;
   outline: none;
@@ -590,7 +590,7 @@ label.logo {
     font-size: 16px;
   }
   .ios-control {
-    background: #f2f2f7;
+    background: #fafafa;
     padding: 5px;
     width: 500px;
     border-radius: 10px;
@@ -638,7 +638,7 @@ label.logo {
     display: block;
   }
   .ios-control {
-    background: #f2f2f7;
+    background: #fafafa;
     padding: 5px;
     width: 400px;
     border-radius: 10px;
@@ -646,19 +646,8 @@ label.logo {
     border: 1px rgb(209, 209, 214);
     font-weight: 500;
   } 
-  ul{
-    margin-top: -10px;
-    margin-right: 0px;
-    width: 420px;
-    height: 100vh;
-    background-color: #fafafa;
-    margin-left: -420px;
-    text-align: center;
-    transition: all 0.5s;
-    position:absolute;
-    top: 50;
-    z-index: 1900;
-  }
+ 
+  
   .uldark {
     width: 420px;
     height: 100vh;
@@ -690,7 +679,7 @@ label.logo {
 }
 @media (max-width: 720px) {
   .ios-control {
-    background: #f2f2f7;
+    background: #fafafa;
     padding: 5px;
     width: 300px;
     border-radius: 10px;
@@ -830,7 +819,11 @@ input:checked + .slider:before {
   transition: 0.2 ease;
   -webkit-transition: 0.2 ease;
   display: none;
+  visibility: visible;
   z-index: 5000;
+}
+.popup-active{
+  display: block;
 }
 .popup {
   text-align: center;
@@ -885,6 +878,7 @@ input:checked + .slider:before {
   top: 95%;
   left: 50%;
   transform: translate(-50%, -5%);
+  visibility: visible;
 }
 .animatedUP {
   animation: moveup 0.2s linear;
@@ -898,6 +892,14 @@ input:checked + .slider:before {
   }
   100% {
     bottom: 10px;
+  }
+}
+@keyframes movedo {
+  0% {
+    bottom: 100px;
+  }
+  100% {
+    bottom: -400px;
   }
 }
 .navsm-primary {
@@ -1319,3 +1321,4 @@ ol li {
 .border-dark{
   border: 0.5px #2a2a2a solid !important;
 }
+

@@ -53,11 +53,8 @@
     
     <div class="bg-white text-center pb-3  box-form">
         
-        <div class="top-bar sticky-top py-2" style="margin-top:-5px;">
-            <a href="/"><i class="fas fa-home    "></i></a>
-            <h3 class="text-iosprimary "><b>meh</b></h3>
-            <a href="/home/search"><i class="fas fa-search "></i></a>
-        </div>
+        {% include 'home/navbar.html' %}
+<br><br>
         <div class="heading">
             <h3 class="font-bold mt-2">Reset Password</h3>
         </div>
@@ -69,23 +66,7 @@
                 <input type="email" class="ios-control p-2" placeholder="Enter your email" name ="email" id="email">
                 
             </div>
-            <div class="form-group">
-                <input type="password" name="password" id="password" placeholder="Enter new password" class="ios-control p-2" ">
-            </div>
-            <div class="form-group">
-                <select class="ios-control p-2" name="ques" id="ques" ><option selected>Select your question</option>
-                    <option>Favourite food</option>
-                    <option>Favourite book</option>
-                    <option>Favourite movie</option>
-                </select>
-            </div>
-            <div class="form-group my-3">
-                <input type="text"  id="ans" name="ans" placeholder="Your answer" class="ios-control p-2" >
-            </div>
-            <div class="form-group mt-2">
-                <button class="btnios ios-pr resetotp">Reset</button>
-                
-            </div>
+            
             
             
         </form>
@@ -101,8 +82,7 @@
                 data: {
                     email:$('#email').val(),
                     password:$('#password').val(),
-                    ques:$('#ques').find(":selected").text(),
-                    ans:$('#ans').val(),
+                   
                     csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
                 },
                 
