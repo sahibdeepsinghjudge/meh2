@@ -20,17 +20,16 @@
 
 
 <div class="center-box">
-  <div
+<div
     class="container-fluid container-main  border"
-    style="background-color: #ffffff;height:auto;"
+    style="background-color: #FDF4FF;height:100vh;"
   >
-  {% include 'home/navbar.html' %}
-
-<br><br>
-    <div class="container bg-light">
+    <div class="container ">
       <div class="data1">
         <div class="server-message"></div>  
-       <h3>Step 1 <small class="text-iosgray" style="font-size: 18px;">Step 2</small></h3>
+       <h3 class="logo-meh">meh</h3>
+       <h3 class="logo-meh">Create a<br>new account</h3>
+
         <form class="form1 mt-3 form" method="POST">
           {% csrf_token %}
           <div class="form-group">
@@ -50,7 +49,7 @@
         </div>
           <div class="form-group my-2">
             <input type="email" name="email" id="email" placeholder="Email"
-            class="ios-control p-2"">
+            class="ios-control p-2">
           </div>
           <div class="form-group">
             <label>Password</label>
@@ -64,7 +63,7 @@
               class="ios-control p-2"
             />
           </div>
-          <div class="form-group my-2">Date of birth</div>
+         <!-- <div class="form-group my-2">Date of birth</div>
           <div class="form-group">
             <input
               type="date"
@@ -75,7 +74,7 @@
           </div>
           <div class="form-group my-2">
             <input type="text" name="emoji" id="emoji" placeholder="select an emoji 😅"
-            class="ios-control p-2"">
+            class="ios-control p-2">
           </div>
           <div class="form-group my-2">Security question</div>
           <div class="form-group">
@@ -93,14 +92,15 @@
               placeholder="Your answer"
               class="ios-control p-2"
             />
-          </div>
-          <div class="form-group my-3">
-            <button class="btnios ios-pr next-btn">
+          </div>-->
+        <p>Already have account?<a href="{% url 'loginPage' %}" class="text-iosprimary">Login</a></p>
+
+          <div class="form-group my-3 text-center">
+            <button class="btnios ios-pr dark next-btn py-2" style="width:200px;">
               Next
             </button>
           </div>
         </form>
-        <p>Already have account?<a href="{% url 'loginPage' %}" class="text-iosprimary">Login</a></p>
       </div>
     </div>
   </div>
@@ -116,12 +116,10 @@
                     email:$('#email').val(),
                     username:$('#username').val(),
                     pswd:$('#pswd').val(),
-                    dob:$('#date-ob').val(),
-                    emoji:$('#emoji').val(),
-
-                    ques:$('#ques').find(":selected").text(),
-
-                    ans:$('#ans').val(),
+                    //dob:$('#date-ob').val(),
+                    //emoji:$('#emoji').val(),
+                    //ques:$('#ques').find(":selected").text(),
+                    //ans:$('#ans').val(),
                     csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
                 },
                 success: function(data){

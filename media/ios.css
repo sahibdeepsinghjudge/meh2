@@ -282,14 +282,15 @@ body {
   border-radius: 20px;
 }
 .ios-control {
-  background: #fafafa;
+  background: #1c1c1e;
   padding: 5px;
   width: 800px;
   outline: none;
   border-radius: 10px;
   height: 50px;
-  border: 1px rgb(209, 209, 214);
+  border: 1px rgb(24, 24, 24);
   font-weight: 500;
+  color: white;
 }
 
 .ios-control-textarea {
@@ -590,12 +591,10 @@ label.logo {
     font-size: 16px;
   }
   .ios-control {
-    background: #fafafa;
     padding: 5px;
     width: 500px;
     border-radius: 10px;
     height: 50px;
-    border: 1px rgb(209, 209, 214);
     font-weight: 500;
   }
 }
@@ -638,12 +637,10 @@ label.logo {
     display: block;
   }
   .ios-control {
-    background: #fafafa;
     padding: 5px;
     width: 400px;
     border-radius: 10px;
     height: 50px;
-    border: 1px rgb(209, 209, 214);
     font-weight: 500;
   } 
  
@@ -679,12 +676,10 @@ label.logo {
 }
 @media (max-width: 720px) {
   .ios-control {
-    background: #fafafa;
     padding: 5px;
-    width: 300px;
+    width: 100%;
     border-radius: 10px;
     height: 50px;
-    border: 1px rgb(209, 209, 214);
     font-weight: 500;
   }
   #navbar>ul>li{

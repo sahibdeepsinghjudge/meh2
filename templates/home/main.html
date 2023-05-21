@@ -8,14 +8,12 @@
 <script>
     $(document).ready(function(){
         $('.loader').fadeOut(2000)
-    
-
-    })
-    
+    }) 
 </script>
 {% else %}
 <input type="hidden" value="{{request.user.username}}" id="user">
-{% include 'home/navbar.html' %}
+
+    {% include 'home/navbar.html' %}
 
 <div class="container-fluid container-main every "  >
    

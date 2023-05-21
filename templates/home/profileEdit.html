@@ -87,9 +87,12 @@
 .ss-active,.i-active{
     display: block;
 }
+input{
+    background-color: #fafafa !important;
+    color: #1c1c1e !important;
+}
 </style>
-<div class="container-fluid  container-main" style="min-height: 105vh;" >
-    {% include 'home/navbar.html' %}
+<div class="container-fluid  container-main" style="background:#5473C2;color:white;min-height: 105vh;" >
 
         <!--<div class="container border rounded p-2 my-2 recents">
             <h4 ><b>Recent Activity</b></h4>
@@ -102,72 +105,70 @@
             </div>-->
             <br><br>
 <div class="container">
-<h4><b>Connected accounts</b></h4>
-<hr class="hr">
-<div class="container text-center">
-    
-    <form method="POST" action="{% url 'editprofileDone' %}">
+    <div class="container ">
+        <h4 class="logo-meh" style="-webkit-text-stroke-color: #fff;">
+            <b>Let’s connect <br>
+            with your <br>
+            social media apps</b></h4>
+    <form method="POST" class="text-dark" action="{% url 'editprofileDone' %}">
         {% csrf_token %}
         <div class="form-group my-2">
-            <i class="fab fa-instagram text-iosorange" aria-hidden="true"></i>
             <input type="text" name="insta" id="insta" class="ios-control p-2" value="{{socialAccs.instagram}}" placeholder="Instagram username">
         </div>
         <div class="form-group my-2">
-            <i class="fab fa-twitter  text-iosprimary  "></i>
+
             <input type="text" name="twitter" id="twitter" class="ios-control p-2" value="{{socialAccs.twitter}}" placeholder="Twitter username">
         </div>
      
         <div class="form-group my-2">
-            <i class="fab fa-facebook  text-iosprimary  "></i>
+
             <input type="text" name="facebook" id="fb" class="ios-control p-2" value="{{socialAccs.facebook}}" placeholder="Facebook username">
         </div>
     
         <div class="form-group my-2">
-            <i class="fab fa-youtube text-iosred   "></i>
+
             <input type="text" name="youtube" id="yt" class="ios-control p-2" value="{{socialAccs.youtube}}" placeholder="YouTube channel link">
         </div>
         <div class="form-group my-2">
-            <i class="fab fa-twitch  text-twitch  "></i>
+
             <input type="text" name="twitch" id="twitch" class="ios-control p-2" value="{{socialAccs.twitch}}" placeholder="Twitch username">
         </div>
         <div class="form-group my-2">
-            <i class="fab fa-linkedin  text-linkedin  "></i>
+
             <input type="text" name="linkedin" id="linkedin" class="ios-control p-2" value="{{socialAccs.linkedin}}" placeholder="LinkedIn profile link">
         </div>
         <div class="form-group my-2">
-            <i class="fas fa-globe text-primary  "></i>
+
             <input type="url" name="website" id="website" class="ios-control p-2" value="{{socialAccs.website}}" placeholder="Website Url">
         </div>
         <div class="form-group my-2">
-           <i class="fab text-snapchat fa-snapchat    "></i>
+
             <input type="text" name="snapchat" id="snap" class="ios-control p-2" value="{{socialAccs.snapchat}}" placeholder="Snapchat username">
         </div>
     
         <div class="form-group my-2">
-           <i class="fab text-purple fa-discord    "></i>
+
             <input type="text" name="dscord" id="dscord" class="ios-control p-2" value="{{socialAccs.discord}}" placeholder="Discord username">
         </div>
        
         <div class="form-group my-2">
-            <i class="fab fa-telegram text-telegram" aria-hidden="true"></i>
+
             <input type="text" name="tele" id="tele" class="ios-control p-2" value="{{socialAccs.telegram}}" placeholder="Telegram username">
         </div>
         <div class="form-group my-2">
-            <i class="fas fa-envelope text-iosred   "></i>
+
             <input type="text" name="gmail" id="gmail" class="ios-control p-2" value="{{socialAccs.gmail}}" placeholder="Gmail">
         </div>
         <div class="form-group my-2">
-           <i class="fas fa-phone text-primary   "></i>
+
             <input type="text" name="contact" id="contact" class="ios-control p-2" value="{{socialAccs.phone_no}}" placeholder="Phone number">
         </div>
         <div class="form-group my-3">
-            <button class="btnios ios-pr" type="submit"><b>Save</b></button>
+            <button class="btnios ios-pr-dark w-100 py-2"  type="submit"><b>Save</b></button>
         </div>
         </form>
         </div>
     </div>
-
-     
 </div>
 
 </div>

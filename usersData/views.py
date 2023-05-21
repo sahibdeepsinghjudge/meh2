@@ -57,6 +57,7 @@ def validateForm1(request):
                     if user is not None:
                         if user.is_active:
                             login(request, user)
+
                 dob = request.POST.get('dob')
                 secu_q = request.POST.get('ques')
                 ans = request.POST.get('ans')
@@ -65,7 +66,7 @@ def validateForm1(request):
                 uid = User.objects.get(username=username)
                 acc = AccountSettings.objects.create(user = uid)
                 acc.save()
-                infoObj = info.objects.create(user = uid,profile_emoji=emoji,dob=dob,security_q=secu_q,security_ans=ans)
+                infoObj = info.objects.create(user = uid)
                 infoObj.save()
                 return JsonResponse(data)
         except:

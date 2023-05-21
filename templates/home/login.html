@@ -1,6 +1,4 @@
-
 {% extends 'home/base.html' %}
-
 {% block content %}
 <style>
     .lemongreen{
@@ -24,14 +22,14 @@
 
     <div class="center-box ">
        
-        <div class="container-fluid container-main border" style="background-color: #ffffff;height:110vh" >
+        <div class="container-main border" style="background-color: #F4FFF7;height:100vh" >
             {% include 'home/navbar.html' %}
             <div class="container-fluid bg-light">
 
             
             <div class="data1">
                 <div class="server-message"></div>
-                <h3><b>Login</b></h3>
+                <h3 class="logo-meh"><b>meh</b></h3>
                 <p></p>
                 
                 <form method="POST" class="form4">
@@ -46,12 +44,12 @@
                         <label class="font-bold">Password</label>
                     </div>
                     <div class="form-group mt-2">
-                        <input type="password" name="log-pswd" id="log-pswd" class="ios-control p-2" placeholder="password">
+                        <input type="password" name="log-pswd" id="log-pswd" class="ios-control p-2 dark" placeholder="password">
                     </div>
                     
                     <a href="/users/forgot-password/" class="text-iosprimary">Forgot Password?</a>
-                    <div class="form-group my-3">
-                        <button class="btnios ios-pr    log" type="submit"><b>Login</b></button>
+                    <div class="form-group my-3 text-center">
+                        <button class="btnios ios-pr dark py-2 log" style="width:200px;" type="submit"><b>Login</b></button>
                     </div>
                     
                 </form>
@@ -60,7 +58,9 @@
         </div>
 </div>
 <script>
+
     $(document).ready(function(){
+        $(".top-bar").hide();
         $(".log").on('click',function(e){
             e.preventDefault();
             $.ajax({

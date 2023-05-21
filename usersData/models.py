@@ -10,9 +10,9 @@ class info(models.Model):
     acc_type = models.CharField(choices=(('Personal','Personal'),('Business','Business')),max_length=10,default='Personal') 
     bio = models.TextField(blank=False,default="bio")
     profile_emoji = models.TextField(default="😊")
-    dob = models.DateField(blank=False)
-    security_q = models.CharField(max_length=255,blank=False)
-    security_ans = models.CharField(max_length=255,blank=False)
+    dob = models.DateField(blank=True,null=True)
+    security_q = models.CharField(max_length=255,blank=True,null=True)
+    security_ans = models.CharField(max_length=255,blank=True,null=True)
     date_created = models.DateField(default=timezone.now)
 
     def __str__(self):

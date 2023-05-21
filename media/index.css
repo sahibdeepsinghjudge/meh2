@@ -42,7 +42,7 @@ body{
     color: #fafafa;
 }
 .container-main{
-    max-width: 450px;
+    width: 100%;
     padding: 0 !important;
 }
 .accs>.container > a{
@@ -116,7 +116,7 @@ input{
         background-color: white;
     }
     .container-main{
-        width: 100vw !important;
+        width: 100% !important;
     }
     .box-form{
         width: 100vw;
@@ -124,7 +124,7 @@ input{
         border-radius: 0px;
     }
     .ios-control,.btnio-dark{
-        width: 80vw !important;
+        width: 86vw !important;
     }
    
     .btnio-dark:hover{

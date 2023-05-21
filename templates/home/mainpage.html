@@ -54,6 +54,7 @@
         font-size: 150px;
         font-weight: 900;
         padding: 40px;
+        line-height: 130px;
     }
 </style>
 
@@ -61,7 +62,7 @@
     <div class="mid-text">
         <h1 class="title">meh</h1>
         <h3 class="sub-heading">unique way to connect</h3>
-        <button class="join-us-button">join us</button>
+       <a href="{% url 'registerPage' %}"> <button class="join-us-button">join us</button></a>
     </div>
 </section>
 <section class="main-body">
@@ -71,15 +72,17 @@
     <div class="main-sub-text">
         see what’s happening near you. <br>
     </div>
-    <button class="join-us-button black">join us</button>
 </section>
 <section class="header">
         <div class="business-text">
             Business are <br>
             not left behind
-            <button class="join-us-button">know more</button>
-
         </div>
+        <div class="main-sub-text text-white mx-5">
+            business accounts are also coming <br>
+        </div>
+        <button class="join-us-button mx-5 mt-2">know more</button>
+
 </section>
 <section>
     <div class="text-center">Supporting</div>
