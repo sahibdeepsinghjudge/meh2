@@ -63,6 +63,10 @@
     }
 }
 
+.bg-light{
+    background-color: #ffffff !important;
+}
+
 .location,.close{
     cursor: pointer;
 }
@@ -99,32 +103,38 @@
                 <div class="container border rounded p-2 nearme">
                     <h4 >Near Me</h4>
             </div>-->
-            <br><br>
-<div class="container">
-<h4>Personal information</h4>
+<div class="container ">
+        <div class="container mt-3 p-3 rounded" style="background-color:#fafafa;" >
+        <h3><b>Personal information</b></h3>
 
-        <div class="container">
-            <hr class="hr">
         <form method="POST" action="{% url 'editPersonalDone' %}">
             {% csrf_token %}
-            <div class="form-group my-2">Profile emoji</div>
-            <div class="form-group">
-                <input type="text" id="emoji" name="emoji" value={{userdata.profile_emoji}} style="width: 40px !important; border-radius:50%; height:40px;" class="ios-control p-2" >
+            <div class="container rounded py-2 bg-light" >
+                <div class="form-group my-2"><b>Profile emoji</b></div>
+                <p class="text-iosgray" style="font-size: 10pt;">Selected <span class="text-iosdark"><b>emoji</b></span> will be used as profile pic.</p>
+                <div class="form-group">
+                    <input type="text" id="emoji" name="emoji" value={{userdata.profile_emoji}} style="width: 35px !important; border-radius:50%; height:35px;" class="ios-control p-2" >
+                </div>
             </div>
-            <p class="text-iosgray" style="font-size: 10pt;">Selected <span class="text-iosprimary">emoji</span> will be used as profile pic.</p>
-            <hr class="hr">
-            <div class="form-group my-2">Bio <i class="fas fa-smile-o" aria-hidden="true"></i></div>
+            <br>
+            <div class="container rounded py-2 bg-light" >
+
+            <div class="form-group my-3"><b>Bio </b><i class="fas fa-pencil" aria-hidden="true"></i></div>
 
         <div class="form-group">
-           <textarea name="bio" id="my-bio" cols="40" rows="3"  placeholder="{{userdata.bio}}" class="ios-control-textarea"></textarea>
+           <textarea name="bio" id="my-bio" cols="40" rows="3"  placeholder="{{userdata.bio}}" class="ios-control-textarea" style="background-color: white !important;"></textarea>
         </div>
-        <hr class="hr">
+        </div>
+        <br>
+        <div class="container rounded py-2 bg-light" >
+
         <div class="form-group my-2">Date of Birth<i class="fas fa-birthday-cake  text-snapchat  "></i></div>
             <div class="form-group">
-                <input type="date" id="date-ob" name="dob" value={{userdata.dob|date:"Y-m-d"}} class="ios-control p-2" >
+                <input type="date" id="date-ob" name="dob" value={{userdata.dob|date:"Y-m-d"}} class="form-control p-2" style="border-radius: 15px;">
             </div>
-        <div class="form-group my-3">
-            <button class="btnios ios-pr " type="submit">Save</button>
+        </div>
+        <div class="form-group my-3 text-center">
+            <button class="btnios ios-pr-dark w-100 " type="submit">Save</button>
         </div>
         
     </form>    

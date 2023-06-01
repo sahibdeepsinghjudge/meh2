@@ -1,30 +1,20 @@
-
 {% extends 'home/base.html' %}
-
 {% block content %}
-<style>
-    
-</style>
-
-    
-
     <div class="center-box">
        <input type="hidden" value="{{request.user.username}}" id='userLog'>
         <div class="container-fluid  border" style="background-color: #fafafa;min-height:100vh" >
             {% include 'home/navbar.html' %}
-
-            <br><br>
             <div class="container-fluid  py-2">
                 <div class="server-message"></div>
-                <h3><b>Settings</b></h3>
+                <h2 style="font-weight: 700;">Settings</h2>
                 
                     <div class="sub-heading my-3">
-                        <h5 class="text-iosgray">Location Services</h5>
+                        <h5 class="text-iosdark">Location Services</h5>
                     </div>
                     <li class="setting"> <span class="location-update toggle-li  flex-box" style="font-weight:lighter"><div>location</div><i class="fas fa-toggle-off text-iosgray location" style="font-size: 26px;"></i></span>
                     </li>
                     <div class="sub-heading my-3">
-                        <h5 class="text-iosgray">Privacy</h5>
+                        <h5 class="text-iosdark">Privacy</h5>
                     </div>
                     </li>
                     <li class="setting"> <span class="toggle-li flex-box" style="font-weight:lighter"><div>Allow contact number search</div><i class="fas fa-toggle-on text-iossuccess " style="font-size: 26px;"></i></span>
@@ -35,7 +25,7 @@
                     </li>
 
                     <div class="sub-heading my-3">
-                        <h5 class="text-iosgray">Services</h5>
+                        <h5 class="text-iosdark">Services</h5>
                     </div>
                     <li class="setting"> <span class="event-update toggle-li flex-box" style="font-weight:lighter"><div>event notifications</div><i class="fas fa-toggle-off text-iosgray event " style="font-size: 26px;"></i></span>
                     </li>
@@ -47,14 +37,14 @@
                     </li>
 
                     <div class="sub-heading my-3">
-                        <h5 class="text-iosgray">Connected Accounts <span><a href="/users/register/socialDone/edit/" class="text-iosprimary " style="font-size: 14px;">edit</a></span></h5>
+                        <h5 class="text-iosdark">Connected Accounts <span><a href="/users/register/socialDone/edit/" class="text-iosprimary " style="font-size: 14px;">edit</a></span></h5>
                         
                     </div>
                     <div class="social">
 
                     </div>
                     <div class="sub-heading my-3">
-                        <h5 class="text-iosgray">More</h5>
+                        <h5 class="text-iosdark">More</h5>
                     </div>
                     <li class="setting dropdown" style="font-weight:lighter">Account verification</li>
                     <div class="drop-content py-2">
@@ -68,7 +58,7 @@
                         <br>
                         Security Answer:<b>{{data.security_ans}}</b>
                     </div>
-                    <a href="/users/logout/"><li class="setting" style="font-weight:lighter;background:#ffbca879;color:#FF4141;">Logout</li></a>
+                    <a href="/users/logout/"><li class="setting" style="font-weight:bold;color:#FF4141;">Logout</li></a>
                     
                 <p class="text-center">Joined <b>meh</b> on {{request.user.date_joined|date:'d-M-Y'}}</p>
                 <p class="text-center">Made in Amritsar <i class="fas fa-heart  text-iosred pl-2 "></i></p>
@@ -178,13 +168,13 @@ createComponent()
                   <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-snapchat  bg-ioslight p-2 rounded text-snapchat"><span class="mx-1">Snapchat</span></i>${data['Social']['snapchat'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
                     <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-twitter bg-ioslight p-2 rounded text-primary"><span class="mx-1">Twitter</span></i>${data['Social']['twitter'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
                     <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-linkedin  bg-ioslight p-2 rounded text-linkedin"><span class="mx-1">LinkedIn</span></i>${data['Social']['linkedin'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
-                    <li class="setting d-flex justify-content-between p-2 style="font-weight:light";" ><i class="fa fa-globe bg-ioslight p-2 rounded text-primary"><span class="mx-1">Website</span></i>${data['Social']['website'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting d-flex justify-content-between p-2 " ><i class="fa fa-globe bg-ioslight p-2 rounded text-primary"><span class="mx-1">Website</span></i>${data['Social']['website'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
                       
                     <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-telegram bg-ioslight p-2 rounded text-telegram"><span class="mx-1">Telegram</span></i>${data['Social']['telegram'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
                     <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-discord bg-ioslight p-2 rounded text-purple"><span class="mx-1">Discord</span></i>${data['Social']['discord'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
                     <li class="setting d-flex justify-content-between p-2" ><i class="fab fa-twitch text-twitch bg-ioslight p-2 rounded"><span class="mx-1">Twitch</span></i>${data['Social']['twitch'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
-                    <li class="setting d-flex justify-content-between p-2 style="font-weight:light";" ><i class="fa fa-envelope bg-ioslight p-2 rounded text-danger"><span class="mx-1">Gmail</span></i>${data['Social']['gmail'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
-                    <li class="setting  d-flex justify-content-between p-2 style="font-weight:light";" ><i class="fa fa-phone  bg-ioslight p-2 rounded text-primary  "><span class="mx-1">Phone number</span></i>${data['Social']['phone_no'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting d-flex justify-content-between p-2 " ><i class="fa fa-envelope bg-ioslight p-2 rounded text-iosred"><span class="mx-1">Gmail</span></i>${data['Social']['gmail'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
+                    <li class="setting d-flex justify-content-between p-2" ><i class="fa fa-phone  bg-ioslight p-2 rounded text-iosprimary  "><span class="mx-1">Phone number</span></i>${data['Social']['phone_no'] ? `<span class="text-iossuccess"><i class="fas fa-circle"></i></span> </li>` : `<span class="text-iosred"> <i class="fas fa-circle"></i></span> </li>`}
 
         </div>`)
         $('#gmail').on('click',function(){

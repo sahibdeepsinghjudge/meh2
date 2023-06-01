@@ -17,6 +17,7 @@ class info(models.Model):
 
     def __str__(self):
         return self.user.username+self.acc_type
+    
 class socialAcc(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     instagram = models.CharField(max_length=255,blank=True)

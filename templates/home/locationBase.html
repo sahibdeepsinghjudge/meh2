@@ -1,16 +1,43 @@
 <style>
     .profile-card{
-        height: 130px;
-        background-color: #fafafa;
+        height: auto;
+        min-height: 50px;
+        max-height: 80px;
+        background-color: #f1f1f1;
         margin: 10px;
         border-radius: 20px;
         padding: 10px;
         display: flex;
         align-items: center;
     }
+    .user-name{
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .bio-text{
+        font-size: 12px;
+        font-weight: 400;
+    }
+    .profile-content{
+        display: flex;
+        flex-direction: row;
+        margin-left: 10px;
+    }
+    .profile-emoji{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        justify-content: center;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+    }
 </style>
-<div class="container text-center server-msg custom-msg-primary"></div>
+<div class="p-3">
+
+
 <!--<div class="navigator-bar py-2">
+    <div class="container text-center server-msg custom-msg-primary"></div>
     <div class="links-fa">
         <a href="/"><i class="fas fa-home  mx-2  "></i></a>
         <a href="/home/search"><i class="fas fa-search mx-2 "></i></a>
@@ -18,39 +45,36 @@
         <span><i class="fas fa-qrcode text-iosdark openPOP" data-bs-toggle="tooltip" data-bs-placement="right" title="QR code to share profile"     style="cursor: pointer;"></i></span>
         <a href="/settings"><i class="fas fa-cog  mx-2 "></i></a>
     </div></div>-->
-    <br>
-<div class="vists"></div>
         <input type="hidden" value="{{request.user.username}}" id="user">
-        <div class="container mx-auto">
-            <span class="text-iosdark" style="font-size: 24px;"><b>near to you</b></span>
-            <p class="text-iosgray" style="font-size: 12px;font-weight:lighter;">based on your location</p>
-        <div class="main-data-on-location">          
+        <div class="container mx-auto rounded mt-2" style="background-color: #fafafa; max-height:600px;overflow-y:hidden;">
+            <p class="text-primary py-3" style="font-size: 24px;"><b>near to you</b></p>
+        <div class="main-data-on-location" style="max-height: 550px; overflow-y:scroll;">          
             <center>
                 {% include 'home/ios-spiner.html' %}
             </center>
     
         </div>
     </div>
+    <div class="container mx-auto rounded mt-2" style="background-color: #fafafa; max-height:600px;overflow-y:hidden;">
+        <p class="text-iosdark py-3" style="font-size: 24px;"><b>Happening</b></p>
+    <div class="events-data-on-location" style="max-height: 550px; overflow-y:scroll;">          
+        <center>
+            {% include 'home/ios-spiner.html' %} loading...
+        </center>
+
     </div>
+</div>
+    </div>
+</div>
 <script>
     var user = document.getElementById('user').value
     var locationIs ="on";
     $.get("/api/location/"+user+"/",function(data){
         locationIs=data['location_sharing'];
         if(data['location_sharing']=="on"){
-            
             getLocation();
-            $(".server-msg").html("Location is enabled");
-            
-            $(".server-msg").effect("bounce");
-
         }else{
-            $('.fa-location-arrow').addClass("text-iosgray")
-            $(".server-msg").removeClass("custom-msg-primary");
-            $(".server-msg").addClass("custom-msg-warning");
-            $(".server-msg").html("Location is disabled");
             locationIs = "off"
-            $(".server-msg").effect("shake");
         }
     })
     function getLocation() {
@@ -74,31 +98,38 @@ getLocation()
                         accuracy:position.coords.accuracy,
                     },
                     success: function(data){
+                        console.log(data)
                            if(data['users'].length!=0){
                             $('.main-data-on-location').html('')
                             /*${data['users'][i].dist.toFixed(2)}*/
                                 for (var i=0; i < data['users'].length; i++) {
                                     var username = data['users'][i].id
-                                    console.log(data['users'][i])
                                     var item = `
                                     <a style="text-decoration:none;" 
                                     class="text-iosdark pl-2" href="/${data['users'][i].id}"> 
                                     <div class="profile-card">
-                                        <div>
-                                        
-                                           <b> ${data['users'][i].id}</b>
-                                        
-                                        <p class="text-iosgray">${data['users'][i].userData.name}</p>
-                                    </div>
-                                    </div></a>`;
 
-                                        (data['users'][i].id?$('.main-data-on-location').append(item):item = "")
+                                                <span class="bg-light profile-emoji"
+                                                 ><b>${data['users'][i].userData.emoji}
+                                                 </b>
+                                                </span>
+                                                <div class="profile-content">
+                                                    <b class="user-name"> ${data['users'][i].id}</b>
+                                                    <small class="text-iosgray bio-text"><br>
+                                                    ${(data['users'][i].userData.acc_type=="Business") ? 
+                                                    data['users'][i].userData.bio :""} </small>
+                                                <div>  
+                                    </div>
+                                </a>`;
+
+                                        (data['users'][i].id ? $('.main-data-on-location').append(item):item = "")
                                         
                                     }
                                 }
                            else{
-                            $('.main-data-on-location').html(`<p class="text-iosgray">No user nearby!</p>`)
+                            $('.main-data-on-location').html(`<p class="text-iosgray">No Users Nearby 📍🥹. <a href="share" class="text-primary">share with friends. ❤️</a></p>`)
                            }
+                           $('.main-data-on-location').append(`<p class="text-iosgray text-center">range 50 meters</p>`)
                     },
                     error:function(data){
                         console.error(data)

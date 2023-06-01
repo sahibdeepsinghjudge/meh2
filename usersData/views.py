@@ -466,7 +466,14 @@ def processLoacation(request):
         except:
             pass
         if x<=50:
-            sorted_lst.append({'dist':x,'id':userDataLoc.user.username,'userData':{'name':userDataLoc.bio,'user-id':userDataLoc.user.id}})
+            sorted_lst.append({'dist':x,'id':userDataLoc.user.username,
+                               'userData':{
+                                    'bio':userDataLoc.bio,
+                                    'user-id':userDataLoc.user.id,
+                                    'emoji':userDataLoc.profile_emoji,
+                                    'acc_type':userDataLoc.acc_type,
+                                    }
+                                })
     sorted_data = sorted(sorted_lst , key = lambda i: i['dist'])
 
     data = {'users':sorted_data}

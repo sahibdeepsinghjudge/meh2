@@ -63,8 +63,6 @@
 </style>
 <div class="container-fluid container-main" >
     {% include 'home/navbar.html' %}
-
-    <br><br>
 {% if not request.user.is_authenticated %}
 <div class="container bg-white py-2 text-center">
     <b>New to <span class="text-iosprimary">meh</span>?</b>
@@ -76,7 +74,6 @@
 </div>
 
 {% else %}
-        <span class="mx-4" style="font-size: 24px;"><span class="text-iosprimary">{{request.user}}'s</span> profile </span>
         <div class="profile">
             <input type="hidden" id="user_to" value="{{request.user}}"/>
         <div class="info">

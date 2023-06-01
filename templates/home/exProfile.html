@@ -63,8 +63,6 @@
 </style>
 <div class="container-fluid container-main" >
     {% include 'home/navbar.html' %}
-   
-    <br><br>
 {% if not request.user.is_authenticated %}
 <div class="container bg-white py-2 text-center">
     <b>New to <span class="text-iosprimary">meh</span>?</b>
@@ -76,7 +74,7 @@
 </div>
 
 {% endif %}
-        <span class="mx-4" style="font-size: 24px;"><span class="text-iosprimary">{{user_to}}'s</span> profile</span>
+
         <div class="profile">
             <input type="hidden" id="user_to" value="{{user_to}}"/>
         <div class="info">
@@ -174,7 +172,16 @@
             fetch('/api/'+user+'/').then(response => response.json())
             .then(data => {
                 if(data['status']==404){
-                    $(".profile").html(`<h1 class="text-center">404 User Not Found!</h1>`)
+                    $(".profile").html(`
+                    <div class="container bg-white py-2 text-center rounded">
+                        <h1 class="text-center text-iosprimary"><b>Opps🫢!</b></h1>
+                        <h3 class="text-center"><b>We don't have account with that name.</b></h3>
+                        <p>Maybe you can bring them on <b >meh</b>.</p>
+                        <p>
+                            <a href=""><button class="btnios ios-pr"><b>Share <i class="fa fa-rocket" aria-hidden="true"></i></b> </button></a>
+                        </p>
+                    </div>
+                    `)
                 }
                 else if(data['status']==420){
                     $('.info').html("Incomplete Profile")
@@ -228,23 +235,38 @@
                 $('.orlink').html(window.location.href)
             }
             else{
-                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                $('.info').html('')
-                $('.info').html(`
-                <div class="container bg-light rounded-sm shadow-sm py-3">
-                    <span>Business name</span><br>
-                    <img src="#" class="img-fluid"><br>
-                    <span>${data['userdata'][0]}</span><br>
-                    <span>Email: ${data['userdata'][1]}</span><br>
+               $('.acc').html(acc_type )
+                        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                        $('.info').html('')
+                        $('.emoji2').html(data['Info']['profile_emoji'])
+                        $('.card-bio').html(data['Info']['bio'])
+                        $('.card-username').html(` 
+                        <div class="font-bold text-iosdark" ><p style="font-size:14pt;">${(data['Extra-Data']['Verified']===true)?data['UserObj']['username']+` <i class="material-icons  text-iosprimary" style="font-size:16px;">
+                            verified
+                        </i></p>`:data['UserObj']['username']}</div>
+                        `);
+                        $('.info').html(`
+                        <div class="container py-3">
+                            <div class="emoji">${data['Info']['profile_emoji']}</div>
+                        <div class="font-bold text-iosdark" ><p style="font-size:24pt;">${(data['Extra-Data']['Verified']===true)?data['UserObj']['username']+` <i class="material-icons  text-iosprimary" style="font-size:16px;">
+                            verified
+                        </i></p>`:data['UserObj']['username']}</div>
+                        <p class="text-black" style="font-size:16pt;"><span class="ml-2">${d.getDate()+' '+ months[d.getMonth()]}</span> 🎂</p>
+                        <p class="text-black bio">${
+                            data['Info']['bio'].length >=150?data['Info']['bio'].substring(0,150)+'...' :data['Info']['bio']
+    
+                         }</p>
                     </div>
-                    <br>
-                <div class="container bg-light rounded py-3">
-                <p class="font-bold text-iosprimary">@${data['userdata'][0]}</p>
-                <p class="font-bold">${data['userdata'][1]}</p>
-          
-                <p class="text-iosgray"><i class="fas fa-birthday-cake  pr-2  text-warning"></i> <span class="ml-2">${d.getDate()+' '+ months[d.getMonth()]}</span></p>
-                <p class="text-iosgray">${data['info'][2]}</p>
-                </div>`)
+                        `)
+                        $('.username').html('');
+                        $('.username').html(data['UserObj']['username']);
+                        $('.orlink').html(window.location.href+data['UserObj']['username'])
+                        $('.magiclink').html('')
+                        $('.nput').html(`<input type="text" class="ios-control bg-dark text-light" value="${window.location.href}${data['UserObj']['username']}" id="myInput">
+                        <span onclick="myFunction()" id="copy-btn"  class="py-3">
+                          <i class="fas fa-copy   text-light "></i>
+                        </span>`)
+                $('.orlink').html(window.location.href)
             }
             function appendSocial(){
                 var facbookLink;

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');
 
 body{
     background-color: #f2f2f7 !important;
@@ -58,15 +58,11 @@ body{
     border: solid 1px rgb(97, 97, 97);
 }
 .navmain{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 10px;
+    text-align: center;
 }
 .top-bar{
-    height: 60px;
+    height: 50px;
     position: fixed;
-    top: 0;
 }
 
 .text-gray{
@@ -196,8 +192,9 @@ input{
 }
 .text-snapchat{
     color: #FFFC00;
-    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-width: 0.7px;
     -webkit-text-stroke-color: black;
+    font-weight: 900;
 }
 .text-linkedin{
     color: #0A66C2;
@@ -240,5 +237,5 @@ input{
 }
 
 *{
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Nunito', sans-serif;
 }
