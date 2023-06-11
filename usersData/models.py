@@ -32,7 +32,24 @@ class socialAcc(models.Model):
     website = models.CharField(max_length=255,blank=True)
     phone_no = models.IntegerField(blank=True,default=0)
     snapchat = models.CharField(max_length=255,blank=True)
-    
+   #github = models.CharField(max_length=255,blank=True)
+
+    def return_connected_accounts(self):
+        return {
+            'instagram':self.instagram,
+            'twitter':self.twitter,
+            'discord':self.discord,
+            'telegram':self.telegram,
+            'facebook':self.facebook,
+            'youtube':self.youtube,
+            'gmail':self.gmail,
+            'twitch':self.twitch,
+            'linkedin':self.linkedin,
+            'website':self.website,
+            'phone_no':self.phone_no,
+            'snapchat':self.snapchat,
+        }
+
     def __str__(self):
         return self.user.username+'SocialMedia'
     
@@ -45,28 +62,35 @@ class OTPModule(models.Model):
     def __str__(self):
         return f'OTP for {self.user} at time {self.date_time}'
 
+
 class ProfileVisits(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     raw_hits = models.IntegerField(default=0)
     def __str__(self):
         return f'{self.user} Visitor count' 
+    
+
 class ProfileHitsUser(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     user_hit = models.ForeignKey(User,on_delete=models.CASCADE,related_name='visitors')
     def __str__(self):
         return f'{self.user} Visitor details' 
+    
+
 class ProfileReactions(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     reaction = models.CharField(max_length=5)
     reactor = models.ForeignKey(User,on_delete=models.CASCADE,related_name='reactor')
     def __str__(self):
         return f'{self.user} Reaction book'
+    
 
 class verifiedAccounts(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now)
     def __str__(self):
         return f'{self.user.username} Verification'
+    
 
 class locationData(models.Model):
     user =  models.ForeignKey(User,on_delete=models.CASCADE)

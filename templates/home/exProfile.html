@@ -280,6 +280,7 @@
                     instaLink = 'https://www.instagram.com/'
                     twitterLink='https://www.twitter.com/'
                     }
+                if(data['connected_accounts']!=1){
                     $('.info').append(`
                     <div class="accs">
                         ${data['Social']['facebook'] ? `<div class="container bg-white rounded  py-2 mt-1"><a href="${facbookLink}${data['Social']['facebook']}"><i class="fab fa-facebook text-iosprimary bg-ioslight p-2 rounded"></i><span class="font-bold mx-2"> ${data['Social']['facebook']} </span></a></div> ` : ``}
@@ -299,7 +300,11 @@
                 }</span></a></div>`: ``}
                 ${data['Social']['phone_no'] ?`<div class="container bg-white rounded py-1 mt-1 mb-2"><i class="fas fa-phone  bg-ioslight p-2 rounded text-primary  "></i><a href="tel:${data['Social']['phone_no']}"> <span class="font-bold mx-2">${data['Social']['phone_no']}</span></a></div>`: ``}
     
-            </div>`)
+            </div>`)}else{
+                console.log('no social media accounts')
+                $('.info').append(`<div class="accs">No social media accounts</div>`)
+            }
+
             $('#gmail').on('click',function(){
                 $('#gmail').html(data['Social']['gmail'])
                 setInterval(function(){
@@ -308,7 +313,7 @@
             }
             )
             }
-            data['status']=='200'?appendSocial(): $('.social').html(`<div class="accs">No social media accounts</div>`)
+            appendSocial()
             function qrcode(){
 
                 setTimeout(function(){

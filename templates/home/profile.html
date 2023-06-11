@@ -1,4 +1,6 @@
-   <!--https://goquotes-api.herokuapp.com/api/v1/all/quotes-->
+  <!--OUT OF SERVICE-->
+  
+  <!--https://goquotes-api.herokuapp.com/api/v1/all/quotes-->
 <div class="container text-center server-msg custom-msg-primary text-light rounded-sm"></div>
 <!--<div class="navigator-bar py-2">
     <div class="links-fa">
@@ -290,9 +292,12 @@ function getData(){
         }
         )
     }
-
+    console.log(data['Social'])
+    console.log(data['status'])
     if(data['status']=='200'){
         buildProfile()
+        
+
         appendSocial()
     }
     else if(data['status']=='420'){

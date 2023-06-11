@@ -255,6 +255,9 @@
                     instaLink = 'https://www.instagram.com/'
                     twitterLink='https://www.twitter.com/'
                     }
+              
+                    let social_count = {};
+                    if(data['connected_accounts']!=1){
                     $('.info').append(`
                     <div class="accs">
                         ${data['Social']['facebook'] ? `<div class="container bg-white rounded  py-2 mt-1"><a href="${facbookLink}${data['Social']['facebook']}"><i class="fab fa-facebook text-iosprimary bg-ioslight p-2 rounded"></i><span class="font-bold mx-2"> ${data['Social']['facebook']} </span></a></div> ` : ``}
@@ -267,7 +270,6 @@
                         ${data['Social']['twitch'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="twitch://${data['Social']['twitch']}"><i class="fab fa-twitch text-twitch bg-ioslight p-2 rounded"></i><span class="font-bold mx-2">${data['Social']['twitch']}</span></a></div>`: ``}
                         ${data['Social']['linkedin'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="${data['Social']['linkedin']}"><i class="fab fa-linkedin text-linkedin bg-ioslight p-2 rounded"></i><span class="font-bold mx-2">Linkedin</span></a></div>`: ``}
                         ${data['Social']['website'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="${data['Social']['website']}"><i class="fas fa-globe text-primary bg-ioslight p-2 rounded"></i><span class="font-bold mx-2">Website</span></a></div>`: ``}
-
                         ${data['Social']['gmail'] ?`<div class="container bg-white rounded py-2 mt-1"><a href="#"><i class="fas fa-envelope bg-ioslight p-2 rounded text-danger"></i><span class="font-bold mx-2" id="gmail">${
                         data['Social']['gmail'].length >=15?data['Social']['gmail'].substring(0,15)+'...' :data['Social']['gmail']
 
@@ -276,7 +278,16 @@
 
             </div>
             <a href="/users/register/socialDone/edit/" class="text-iosgray"><i class="fas fa-cog text-primary bg-ioslight p-2 rounded"></i></a>
-            `)
+            `)}else{
+                $(".info").append(`
+                <div class="accs">
+                    <div class="container p-2 rounded bg-white ">
+                    <p><b>No social media accounts connected!</b></p>
+                    <a href="/users/register/socialDone/edit/" class="text-primary">Connect Accounts</a>
+                    </div>
+                </div>`)
+            }
+           
             $('.rawVisits').html(data['Extra-Data']['raw-count'])
             $('.uqVisits').html(data['Extra-Data']['unique'])
             $('#gmail').on('click',function(){

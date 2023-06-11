@@ -61,14 +61,17 @@ def UserDetails(request,username):
             Users = User.objects.get(username=username)
             User_serializer = UserModelSerializer(Users, many=False)
             acc_set = AccountSettings.objects.filter(user = Users.id)
-            print(acc_set)
             acc_set_serializer = AccountSettingsSerializer(acc_set,many=True)
             try:
                 Info = info.objects.get(user = Users.id)
                 info_serializer = UserInfoSerializer(Info, many=False)
                 SocialAcc = socialAcc.objects.get(user = Users.id)
-             
+                     
                 Social_serializer = UserSocialAccSerializer(SocialAcc, many=False)
+                data_list = []
+                for i in SocialAcc.return_connected_accounts():
+                    if SocialAcc.return_connected_accounts().get(i) != "":
+                        data_list.append(i)
                 visits = ProfileVisits.objects.filter(user=Users.id).count()
                 u_q_visits = ProfileHitsUser.objects.filter(user=Users.id).count()
                 if request.user.id != Users.id:
@@ -88,7 +91,7 @@ def UserDetails(request,username):
                     'UserObj':User_serializer.data,
                     'Social':Social_serializer.data,
                     'Info':info_serializer.data,
-                    
+                    'connected_accounts':len(data_list),
                     'Extra-Data':{
                         'Verified':verification,
                         'raw-count':visits,
@@ -105,6 +108,7 @@ def UserDetails(request,username):
                     'UserObj':User_serializer.data,
                     'Social':Social_serializer.data,
                     'Info':info_serializer.data,
+                    'connected_accounts':len(data_list),
 
                     'Settings':acc_set_serializer.data,
                     
@@ -115,9 +119,7 @@ def UserDetails(request,username):
                     },
                         'status':200,
                     }
-                    return Response(data)
-                
-                
+                    return Response(data)  
             except :
                 data ={
                     'status':420,
@@ -135,11 +137,11 @@ def LocationDetails(request,username):
     if request.method == 'GET':
                 try:
                         location = locationData.objects.get(user = Users.id)
-                        print("location",location)
+
                 except:
                         location = locationData.objects.create(user = Users)
-                        print("location",location)
+
                         location.save()
                 Location_serializer = UserLocationDataSerializer(location, many=False)
-                print(Location_serializer.data)
+
                 return Response(Location_serializer.data)

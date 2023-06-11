@@ -27,6 +27,8 @@ def registerUser(request):
 def removeOldOtp():
         otpmods = OTPModule.objects.filter(valid = False)
         otpmods.delete()
+
+
 def validateForm1(request):
     if request.method=='POST':
         email = request.POST.get('email')
@@ -41,7 +43,7 @@ def validateForm1(request):
                     'validated':['true'],
                     'no_account':['false']
                 }
-                print("Validation Error")
+
                 return JsonResponse(data)
             else:
                 '''asdfhb'''
@@ -65,6 +67,8 @@ def validateForm1(request):
 
                 uid = User.objects.get(username=username)
                 acc = AccountSettings.objects.create(user = uid)
+                socialAccObj = socialAcc.objects.create(user = uid)
+                socialAccObj.save()
                 acc.save()
                 infoObj = info.objects.create(user = uid)
                 infoObj.save()
@@ -85,6 +89,8 @@ def postInfo(request):
         return HttpResponse('created')
     else:
         return JsonResponse({"status":500,'data':"Not created not POST request"})
+    
+
 @csrf_exempt
 def postInfoAccs(request):
     if request.method=='POST':
@@ -98,7 +104,7 @@ def postInfoAccs(request):
         phn = request.POST.get('phone')
         telegram = request.POST.get('telegram')
         discordX = request.POST.get('ds')
-        print("ds",discordX)
+
         if discordX == None:
             discordX = ''
         if telegram == None:
@@ -201,7 +207,7 @@ def returnUserData(request,username):
                     'userdata':[userdata.username,userdata.email],'info':[str(infoObj.dob),str(infoObj.acc_type),infoObj.bio],'status':'204','vists_count':0,
                     'message':'User found with no social','verification':verification
                 }
-                print(data['status'])
+
                 return JsonResponse(data)
 
     else:
@@ -209,12 +215,14 @@ def returnUserData(request,username):
                 'status':'404',
                 'message':'Username incorrect hence not found!',
             }
-            print('here',data['status'])
+
             return JsonResponse(data)
 
 
 def compPage(request):
     return render(request,'home/compProfile.html')
+
+
 def compProfile(request):
     if request.method == 'POST':
         dob = request.POST.get('dob')
@@ -224,6 +232,8 @@ def compProfile(request):
         infoObj = info.objects.create(bio=bio,user = request.user,dob=dob,security_q = ques,security_ans = ans)
         infoObj.save()
     return redirect('/')
+
+
 def editProfile(request):
     try:
         if socialAcc.objects.get(user=request.user.id):
@@ -238,6 +248,7 @@ def editProfile(request):
             }
         return render(request,'home/profileEdit.html',context)
 
+
 def editPersonal(request):
     try:
         if info.objects.get(user = request.user.id):
@@ -247,6 +258,7 @@ def editPersonal(request):
             return render(request,'home/infoEdit.html',context)
     except:
         return redirect('/settings/')
+
 
 @csrf_exempt
 def postInfoAccsUp(request):
@@ -325,6 +337,7 @@ def generateOTP():
         generateOTP()
     return otp
 
+
 def requestOtp(request):
     if request.method=="POST":
         email = request.POST.get('email')
@@ -361,6 +374,7 @@ def requestOtp(request):
 def resetpasswordPage(request):
     return render(request,'home/passreset.html')
 
+
 def resetPswdDone(request):
     if request.method=='POST':
         email = request.POST.get('email')
@@ -369,6 +383,7 @@ def resetPswdDone(request):
         userObj.set_password(password)
         userObj.save()
         return HttpResponse("done")
+
 
 def automateProcess():
     for i in User.objects.all():
@@ -379,6 +394,7 @@ def automateProcess():
 
 automateProcess()
 
+
 def usersCount(request):
     automateProcess()
     users = User.objects.all()
@@ -387,6 +403,7 @@ def usersCount(request):
         'count':count,
     }
     return JsonResponse(data)
+
 
 @csrf_exempt
 def putLocationData(request):
@@ -399,7 +416,7 @@ def putLocationData(request):
         if latitude and longitude and accuracy:
             try:
                 locationObj = locationData.objects.get(user = userObj)
-                print(locationObj)
+
                 if locationObj.location_sharing=="on":
                     locationObj.latitude = latitude
                     locationObj.longitude = longitude
@@ -412,6 +429,7 @@ def putLocationData(request):
         else:
             status='abort'
     return HttpResponse(status)
+
 
 @csrf_exempt
 def locationSharing(request):
@@ -427,6 +445,8 @@ def locationSharing(request):
         except:
             status='aborted'
     return HttpResponse(status)
+
+
 def getLocationSettings(request):
     try:
         userObj = User.objects.get(username = request.user.username)
@@ -435,6 +455,8 @@ def getLocationSettings(request):
     except:
         status='aborted'
     return JsonResponse(data={'sharing':status})
+
+
 @csrf_exempt
 def processLoacation(request):
     if request.method=="POST":
@@ -504,11 +526,11 @@ def updateRegister(request):
 def updateMehCard(request):
     if request.method =="POST":
         value = request.POST.get('value')
-        print(value)
+
         acc = AccountSettings.objects.get(user = request.user.id)
         acc.mehCard = value
         acc.save()
-        print(acc.mehCard)
+
         return HttpResponse(acc.mehCard)
     else:
         return HttpResponse("abort")
@@ -517,11 +539,11 @@ def updateMehCard(request):
 def updateEventNotification(request):
     if request.method =="POST":
         value = request.POST.get('value')
-        print(value)
+
         acc = AccountSettings.objects.get(user = request.user.id)
         acc.eventNotifications = value
         acc.save()
-        print(acc.eventNotifications)
+
         return HttpResponse(acc.eventNotifications)
     else:
         return HttpResponse("abort")
@@ -530,11 +552,11 @@ def updateEventNotification(request):
 def updateInsights(request):
     if request.method =="POST":
         value = request.POST.get('value')
-        print(value)
+
         acc = AccountSettings.objects.get(user = request.user.id)
         acc.insights = value
         acc.save()
-        print(acc.insights)
+
         return HttpResponse(acc.insights)
     else:
         return HttpResponse("abort")

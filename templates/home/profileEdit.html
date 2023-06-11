@@ -88,81 +88,126 @@
     display: block;
 }
 input{
-    background-color: #fafafa !important;
+    background-color: #ffffff !important;
     color: #1c1c1e !important;
+    width: 100%;
 }
 </style>
-<div class="container-fluid  container-main" style="background:#5473C2;color:white;min-height: 105vh;" >
+<div class="container-fluid container-main"  >
+        {% include 'home/navbar.html' %}
 
-        <!--<div class="container border rounded p-2 my-2 recents">
-            <h4 ><b>Recent Activity</b></h4>
-            </div>
-            <div class="container border rounded my-2 p-2 talks">
-                <h4 ><b>mehTalks</b></h4>
-                </div>
-                <div class="container border rounded p-2 nearme">
-                    <h4 ><b>Near Me</b></h4>
-            </div>-->
-            <br><br>
-<div class="container">
+<div class=" mt-4 py-3" style="min-height: 105vh;">
     <div class="container ">
-        <h4 class="logo-meh" style="-webkit-text-stroke-color: #fff;">
-            <b>Let’s connect <br>
-            with your <br>
-            social media apps</b></h4>
+        <h4 class="bg-light rounded py-3 p-2">
+            <b>Connect Your Accounts</b>
+        </h4>
     <form method="POST" class="text-dark" action="{% url 'editprofileDone' %}">
         {% csrf_token %}
+        <div class="bg-light rounded py-3 px-2 mt-2">
+            <div class="label">
+                <b class="text-iosorange">Instagram username</b>
+            </div>
+            <div class="form-group my-2">
+                <input type="text" name="insta" id="insta" class="ios-control p-2" value="{{socialAccs.instagram}}" placeholder="@username">
+            </div>
+        </div>
+        <div class="bg-light rounded py-3 px-2 mt-2">
+            <div class="label">
+                <b class="text-primary">Twitter username</b>
+            </div>
         <div class="form-group my-2">
-            <input type="text" name="insta" id="insta" class="ios-control p-2" value="{{socialAccs.instagram}}" placeholder="Instagram username">
+
+            <input type="text" name="twitter" id="twitter" class="ios-control p-2" value="{{socialAccs.twitter}}" placeholder="@username">
+        </div>
+     </div>
+     <div class="bg-light rounded py-3 px-2 mt-2">
+        <div class="label">
+            <b class="text-iosprimary">Facebook username</b>
+        </div>
+        <div class="form-group my-2">
+            <input type="text" name="facebook" id="fb" class="ios-control p-2" value="{{socialAccs.facebook}}" placeholder="@username">
+        </div>
+    </div>
+    <div class="bg-light rounded py-3 px-2 mt-2">
+        <div class="label">
+            <b class="text-iosred">YouTube Channel link</b>
+        </div>
+
+        <div class="form-group my-2">
+            <input type="text" name="youtube" id="yt" class="ios-control p-2" value="{{socialAccs.youtube}}" placeholder="link">
+        </div>
+        </div>
+        <div class="bg-light rounded py-3 px-2 mt-2">
+            <div class="label">
+                <b class="text-twitch">Twitch username</b>
         </div>
         <div class="form-group my-2">
 
-            <input type="text" name="twitter" id="twitter" class="ios-control p-2" value="{{socialAccs.twitter}}" placeholder="Twitter username">
+            <input type="text" name="twitch" id="twitch" class="ios-control p-2" value="{{socialAccs.twitch}}" placeholder="@username">
         </div>
-     
-        <div class="form-group my-2">
-
-            <input type="text" name="facebook" id="fb" class="ios-control p-2" value="{{socialAccs.facebook}}" placeholder="Facebook username">
-        </div>
-    
-        <div class="form-group my-2">
-
-            <input type="text" name="youtube" id="yt" class="ios-control p-2" value="{{socialAccs.youtube}}" placeholder="YouTube channel link">
+    </div>
+    <div class="bg-light rounded py-3 px-2 mt-2">
+        <div class="label">
+            <b class="text-linkedin">LinkedIn Profile link</b>
         </div>
         <div class="form-group my-2">
-
-            <input type="text" name="twitch" id="twitch" class="ios-control p-2" value="{{socialAccs.twitch}}" placeholder="Twitch username">
+            <input type="text" name="linkedin" id="linkedin" class="ios-control p-2" value="{{socialAccs.linkedin}}" placeholder="profile link">
         </div>
-        <div class="form-group my-2">
-
-            <input type="text" name="linkedin" id="linkedin" class="ios-control p-2" value="{{socialAccs.linkedin}}" placeholder="LinkedIn profile link">
-        </div>
+    </div>
+    <div class="bg-light rounded py-3 px-2 mt-2">
+        <div class="label">
+            <b class="text-success">Your Website</b>
+    </div>
         <div class="form-group my-2">
 
             <input type="url" name="website" id="website" class="ios-control p-2" value="{{socialAccs.website}}" placeholder="Website Url">
         </div>
+    </div>
+    <div class="bg-light rounded py-3 px-2 mt-2">
+        <div class="label">
+            <b class="text-snapchat">Snapchat username</b>
+    </div>
+
         <div class="form-group my-2">
 
-            <input type="text" name="snapchat" id="snap" class="ios-control p-2" value="{{socialAccs.snapchat}}" placeholder="Snapchat username">
+            <input type="text" name="snapchat" id="snap" class="ios-control p-2" value="{{socialAccs.snapchat}}" placeholder="@username">
         </div>
-    
-        <div class="form-group my-2">
-
-            <input type="text" name="dscord" id="dscord" class="ios-control p-2" value="{{socialAccs.discord}}" placeholder="Discord username">
-        </div>
-       
-        <div class="form-group my-2">
-
-            <input type="text" name="tele" id="tele" class="ios-control p-2" value="{{socialAccs.telegram}}" placeholder="Telegram username">
-        </div>
-        <div class="form-group my-2">
-
-            <input type="text" name="gmail" id="gmail" class="ios-control p-2" value="{{socialAccs.gmail}}" placeholder="Gmail">
+     </div>
+        <div class="bg-light rounded py-3 px-2 mt-2">
+            <div class="label">
+                <b class="text-purple">Discord username</b>
         </div>
         <div class="form-group my-2">
 
-            <input type="text" name="contact" id="contact" class="ios-control p-2" value="{{socialAccs.phone_no}}" placeholder="Phone number">
+            <input type="text" name="dscord" id="dscord" class="ios-control p-2" value="{{socialAccs.discord}}" placeholder="@username">
         </div>
+    </div>
+    <div class="bg-light rounded py-3 px-2 mt-2">
+        <div class="label">
+            <b class="text-telegram">Telegram username</b>
+    </div>
+        <div class="form-group my-2">
+
+            <input type="text" name="tele" id="tele" class="ios-control p-2" value="{{socialAccs.telegram}}" placeholder="@username">
+        </div>
+    </div>
+    <div class="bg-light rounded py-3 px-2 mt-2">
+        <div class="label">
+            <b class="text-danger">Email</b>
+    </div>
+        <div class="form-group my-2">
+            <input type="text" name="gmail" id="gmail" class="ios-control p-2" value="{{socialAccs.gmail}}" placeholder="email">
+        </div>
+    </div>
+    <div class="bg-light rounded py-3 px-2 mt-2">
+        <div class="label">
+            <b class="text-iossuccess">Phone Number</b>
+    </div>
+        <div class="form-group my-2">
+
+            <input type="text" name="contact" id="contact" class="ios-control p-2" value="{{socialAccs.phone_no}}" placeholder="+91 6473783332">
+        </div>
+    </div>
         <div class="form-group my-3">
             <button class="btnios ios-pr-dark w-100 py-2"  type="submit"><b>Save</b></button>
         </div>
