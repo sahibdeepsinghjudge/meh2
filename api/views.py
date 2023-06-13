@@ -5,8 +5,8 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from usersData.models import AccountSettings, ProfileVisits, info, locationData, registerData,socialAcc, verifiedAccounts,ProfileHitsUser
-from .serializers import AccountSettingsSerializer, UserInfoSerializer,UserModelSerializer, UserRegisterDataSerializer,UserSocialAccSerializer,UserLocationDataSerializer
+from usersData.models import AccountSettings, BusinessDetails, Events, ProfileVisits, info, locationData, registerData,socialAcc, verifiedAccounts,ProfileHitsUser
+from .serializers import AccountSettingsSerializer, BusinessDetailsSerializer, EventsSerializer, UserInfoSerializer,UserModelSerializer, UserRegisterDataSerializer,UserSocialAccSerializer,UserLocationDataSerializer
 from django.contrib.auth.models import User
 
 @api_view(['GET',"POST"])
@@ -55,7 +55,6 @@ def api_wayback_machine(request):
 
 @api_view(['GET','POST'])
 def UserDetails(request,username):
-    
     if request.method == 'GET':
         try:
             Users = User.objects.get(username=username)
@@ -66,9 +65,13 @@ def UserDetails(request,username):
                 Info = info.objects.get(user = Users.id)
                 info_serializer = UserInfoSerializer(Info, many=False)
                 SocialAcc = socialAcc.objects.get(user = Users.id)
-                     
                 Social_serializer = UserSocialAccSerializer(SocialAcc, many=False)
                 data_list = []
+                business = Info.business_linked_account
+                try:
+                    business_serializer =  BusinessDetailsSerializer(business,many=False)
+                except Exception as e:
+                    business_serializer = {}
                 for i in SocialAcc.return_connected_accounts():
                     if SocialAcc.return_connected_accounts().get(i) != "":
                         data_list.append(i)
@@ -91,6 +94,7 @@ def UserDetails(request,username):
                     'UserObj':User_serializer.data,
                     'Social':Social_serializer.data,
                     'Info':info_serializer.data,
+                    'Business':business_serializer.data,
                     'connected_accounts':len(data_list),
                     'Extra-Data':{
                         'Verified':verification,
@@ -108,6 +112,7 @@ def UserDetails(request,username):
                     'UserObj':User_serializer.data,
                     'Social':Social_serializer.data,
                     'Info':info_serializer.data,
+                    'Business':business_serializer.data,
                     'connected_accounts':len(data_list),
 
                     'Settings':acc_set_serializer.data,
@@ -145,3 +150,13 @@ def LocationDetails(request,username):
                 Location_serializer = UserLocationDataSerializer(location, many=False)
 
                 return Response(Location_serializer.data)
+    
+@api_view(['GET','POST'])
+def EventDetails(request,event_id):
+    if request.method == 'GET':
+        try:
+            event = Events.objects.get(id = event_id)
+            event_serializer = EventsSerializer(event,many=False)
+            return Response(event_serializer.data)
+        except:
+            return Response(data = {'status':404,'details':'Event does not exisit.'})

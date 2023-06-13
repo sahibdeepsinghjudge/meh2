@@ -1,4 +1,4 @@
-from usersData.models import AccountSettings, OTPModule, ProfileHitsUser, ProfileReactions, ProfileVisits, info, locationData, registerData, socialAcc, verifiedAccounts
+from usersData.models import AccountSettings, BusinessDetails, Events, OTPModule, ProfileHitsUser, ProfileReactions, ProfileVisits, info, locationData, registerData, socialAcc, verifiedAccounts
 from django.contrib import admin
 
 # Register your models here.
@@ -13,3 +13,5 @@ admin.site.register(verifiedAccounts)
 admin.site.register(locationData)
 admin.site.register(registerData)
 admin.site.register(AccountSettings)
+admin.site.register(Events)
+admin.site.register(BusinessDetails)

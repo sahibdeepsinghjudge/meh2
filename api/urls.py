@@ -5,5 +5,6 @@ urlpatterns = [
     path('registers/',views.registerCount,name='api-all-registers'),
     path('<str:username>/',views.UserDetails,name='api-users-details'),
     path('location/<str:username>/',views.LocationDetails,name='api-location-details'),
+    path('events/<int:event_id>/',views.EventDetails,name='api-events-details'),
     path('',views.api_wayback_machine,name='api')
 ]

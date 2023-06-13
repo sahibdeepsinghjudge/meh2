@@ -1,7 +1,9 @@
 from django.db.models import fields
 from rest_framework import serializers
-from usersData.models import AccountSettings, info, socialAcc,locationData,registerData
+from usersData.models import AccountSettings, BusinessDetails, Events, info, socialAcc,locationData,registerData
 from django.contrib.auth.models import User
+
+
 class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = info
@@ -31,4 +33,14 @@ class UserRegisterDataSerializer(serializers.ModelSerializer):
 class AccountSettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccountSettings
+        fields = '__all__'
+
+class BusinessDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BusinessDetails
+        fields = '__all__'
+    
+class EventsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Events
         fields = '__all__'

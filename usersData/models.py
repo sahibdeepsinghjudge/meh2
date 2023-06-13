@@ -1,9 +1,13 @@
 
+from typing import Iterable, Optional
 import usersData
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 # Create your models here.
+
+event_type = (('public','public'),('private','private'),('sale','sale'),('offer','offer'),('open','open'),('closed','closed'),('other','other'))
+
 
 class info(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -13,6 +17,8 @@ class info(models.Model):
     dob = models.DateField(blank=True,null=True)
     security_q = models.CharField(max_length=255,blank=True,null=True)
     security_ans = models.CharField(max_length=255,blank=True,null=True)
+    business_linked = models.BooleanField(default=False)
+    business_linked_account = models.ForeignKey("BusinessDetails",on_delete=models.CASCADE,blank=True,null=True)
     date_created = models.DateField(default=timezone.now)
 
     def __str__(self):
@@ -119,4 +125,40 @@ class AccountSettings(models.Model):
 
     def __str__(self):
         return "{}'s Account Setting".format(self.user) 
+    
 
+
+class Events(models.Model):
+    name = models.CharField(max_length=255,blank=False)
+    description = models.TextField(blank=False)
+    event_date = models.DateField(blank=False)
+    start_time = models.CharField(blank=False,max_length=10,default="10:00 AM")
+    end_time = models.CharField(blank=False,max_length=10,default="12:00 PM")
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    map_range = models.IntegerField(blank=False,default=50) #meters
+    latitude = models.CharField(max_length=255,blank=False)
+    longitude = models.CharField(max_length=255,blank=False,default=0.00)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+    event_type = models.CharField(choices=event_type,default='public',max_length=10)
+
+    def __str__(self) -> str:
+        return self.name
+    
+    def save(self,*args,**kwargs):
+        self.map_range = self.map_range*1000 #converting to meters
+        return super().save(*args,**kwargs)
+    
+class BusinessDetails(models.Model):
+    business_name = models.CharField(max_length=255,blank=False)
+    business_description = models.TextField(blank=False)
+    business_type = models.CharField(max_length=255,blank=False)
+    business_location = models.CharField(max_length=255,blank=False)
+    business_website = models.CharField(max_length=255,blank=False)
+    business_email = models.EmailField(blank=False)
+    business_phone = models.IntegerField(blank=False)
+    #business_logo = models.ImageField(upload_to='business_logo',blank=False)
+
+    def __str__(self) -> str:
+        return self.business_name

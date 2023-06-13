@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import AccountSettings, OTPModule, ProfileHitsUser, ProfileVisits, info, locationData, registerData, socialAcc, verifiedAccounts
+from .models import AccountSettings, Events, OTPModule, ProfileHitsUser, ProfileVisits, info, locationData, registerData, socialAcc, verifiedAccounts
 import pyqrcode
 from django.core.mail import BadHeaderError, message, send_mass_mail
 from django.core.mail import EmailMultiAlternatives
@@ -163,7 +163,6 @@ def autoVerifyUser(username):
 
 
 def returnUserData(request,username):
-    removeOldOtp()
     autoVerifyUser(username)
     userObj = User.objects.get(username=username)
     x = request.user.username
@@ -462,26 +461,31 @@ def processLoacation(request):
     if request.method=="POST":
         latitude = request.POST.get('latitude')
         longitude = request.POST.get('longitude')
-
+    lati1 = float(latitude)
+    long1= float(longitude)
     userObj = User.objects.get(username = request.user.username)
     R = 6373.0
     def distanceBWlocations(lati1,long1,lati2,long2):
         lat1 = radians(lati1)
         lon1 = radians(long1)
-        lat2 = radians(lati2)
-        lon2 = radians(long2)
+        lat2 = radians(float(lati2))
+        lon2 = radians(float(long2))
         dlon = lon2 - lon1
         dlat = lat2 - lat1
         a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
         distance = R * c *1000
         return distance
-    lati1 = float(latitude)
-    long1= float(longitude)
+  
     data_set = locationData.objects.filter(location_sharing='on').exclude(user = userObj.id)
     sorted_lst = []
+    event_lst = []
+    eventsData = Events.objects.filter(is_active=True)
+    for event in eventsData:
+         x = distanceBWlocations(lati1,long1,event.latitude,event.longitude)
+         if x<= event.map_range:
+              event_lst.append({'dist':x,'id':event.id,'name':event.name,'map_range':event.map_range,'description':event.description,'date_time':[event.event_date,event.start_time,event.end_time],'location':[event.latitude,event.longitude],'event_type':event.event_type})
     for user_data_set in data_set:
-
         x = distanceBWlocations(lati1,long1,user_data_set.latitude,user_data_set.longitude)
         try:
             userDataLoc = info.objects.get(user = user_data_set.user)
@@ -497,8 +501,9 @@ def processLoacation(request):
                                     }
                                 })
     sorted_data = sorted(sorted_lst , key = lambda i: i['dist'])
+    event_lst = sorted(event_lst , key = lambda i: i['dist'])
 
-    data = {'users':sorted_data}
+    data = {'users':sorted_data,'events':event_lst}
     return JsonResponse(data)
 
 
@@ -560,3 +565,5 @@ def updateInsights(request):
         return HttpResponse(acc.insights)
     else:
         return HttpResponse("abort")
+    
+
